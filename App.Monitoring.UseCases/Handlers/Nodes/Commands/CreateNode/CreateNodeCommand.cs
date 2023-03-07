@@ -4,32 +4,32 @@ using App.Monitoring.Entities.Enums;
 namespace App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateNode;
 
 /// <summary>
-/// Модель создания нового узла
+/// Модель создания нового узла.
 /// </summary>
 public sealed class CreateNodeCommand: ICommand
 {
     /// <summary>
-    /// Идентификатор устройства
+    /// Идентификатор устройства.
     /// </summary>
     public Guid DeviceId { get; init; }
 
     /// <summary>
-    /// Тип устройства
+    /// Тип устройства.
     /// </summary>
     public DeviceType DeviceType { get; init; }
 
     /// <summary>
-    /// Имя узла
+    /// Имя узла.
     /// </summary>
     public string Name { get; init; } = default!;
 
     /// <summary>
-    /// Дата последней статистики
+    /// Дата последней статистики.
     /// </summary>
     public DateTimeOffset Date { get; init; }
 
     /// <summary>
-    /// Версия клиента
+    /// Версия клиента.
     /// </summary>
     public string ClientVersion { get; init; } = default!;
 }

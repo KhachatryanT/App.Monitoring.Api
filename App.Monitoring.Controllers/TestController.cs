@@ -8,21 +8,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Monitoring.Controllers;
 
 /// <summary>
-/// Вспомогательный контроллерр
+/// Вспомогательный контроллерр.
 /// </summary>
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
     private readonly IDbContext _dbContext;
 
-    /// <inheritdoc />
+
+    /// <summary>
+    /// <see cref="TestController"/>.
+    /// </summary>
+    /// <param name="dbContext">БД контекст.</param>
     public TestController(IDbContext dbContext) => _dbContext = dbContext;
 
     /// <summary>
-    /// Наполнить БД случайными данными
+    /// Наполнить БД случайными данными.
     /// </summary>
-    /// <param name="itemsCount"></param>
-    /// <returns></returns>
+    /// <param name="itemsCount">Количество записей для добавления.</param>
+    /// <returns>Ok.</returns>
     [HttpGet("[action]")]
     public async Task<IActionResult> FillDatabase(int itemsCount = 10)
     {
@@ -43,10 +47,10 @@ public class TestController : ControllerBase
     }
 
     /// <summary>
-    /// Выбросить исключение
+    /// Выбросить исключение.
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <returns>Исключение.</returns>
+    /// <exception cref="Exception">Исключение.</exception>
     [HttpGet("[action]")]
     public IActionResult ThrowException()
     {

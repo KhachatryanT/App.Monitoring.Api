@@ -4,37 +4,37 @@ using App.Monitoring.Entities.Enums;
 namespace App.Monitoring.Entities.Models;
 
 /// <summary>
-/// Узел
+/// Узел.
 /// </summary>
 public sealed class Node
 {
     /// <summary>
-    /// Идентификатор записи
+    /// Идентификатор записи.
     /// </summary>
     public int Id { get; init; }
 
     /// <summary>
-    /// Идентификатор устройства
+    /// Идентификатор устройства.
     /// </summary>
     public Guid DeviceId { get; init; }
 
     /// <summary>
-    /// Тип устройства
+    /// Тип устройства.
     /// </summary>
     public DeviceType DeviceType { get; init; }
 
     /// <summary>
-    /// Имя узла
+    /// Имя узла.
     /// </summary>
-    public string Name { get; init; }
+    public string Name { get; init; } = default!;
 
     /// <summary>
-    /// Дата последней статистики
+    /// Дата последней статистики.
     /// </summary>
     public DateTimeOffset Date { get; init; }
 
     /// <summary>
-    /// Версия клиента
+    /// Версия клиента.
     /// </summary>
-    public string ClientVersion { get; init; }
+    public string ClientVersion { get; init; } = default!;
 }

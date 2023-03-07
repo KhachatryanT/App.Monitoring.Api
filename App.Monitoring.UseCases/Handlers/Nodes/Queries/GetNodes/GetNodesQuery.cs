@@ -4,7 +4,7 @@ using App.Monitoring.Entities.Models;
 namespace App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
 
 /// <summary>
-/// Запрос получения узлов
+/// Запрос получения узлов.
 /// </summary>
 public sealed class GetNodesQuery : IQuery<IAsyncEnumerable<Node>>
 {

@@ -4,27 +4,27 @@ using App.Monitoring.Entities.Enums;
 namespace App.Monitoring.Controllers.Models;
 
 /// <summary>
-/// Узел
+/// Узел.
 /// </summary>
 public class NodeResult
 {
     /// <summary>
-    /// Тип устройства
+    /// Тип устройства.
     /// </summary>
     public DeviceType DeviceType { get; init; }
 
     /// <summary>
-    /// Имя узла
+    /// Имя узла.
     /// </summary>
-    public string Name { get; init; }
+    public string Name { get; init; } = default!;
 
     /// <summary>
-    /// Дата последней статистики
+    /// Дата последней статистики.
     /// </summary>
     public DateTimeOffset Date { get; init; }
 
     /// <summary>
-    /// Версия клиента
+    /// Версия клиента.
     /// </summary>
-    public string ClientVersion { get; init; }
+    public string ClientVersion { get; init; } = default!;
 }

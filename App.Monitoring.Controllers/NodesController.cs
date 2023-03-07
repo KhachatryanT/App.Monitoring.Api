@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Monitoring.Controllers;
 
 /// <summary>
-/// Методы работы с узлами
+/// Методы работы с узлами.
 /// </summary>
 [Route("node")]
 [ApiController]
@@ -19,13 +19,16 @@ public class NodesController : ControllerBase
 {
     private readonly ISender _sender;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <see cref="NodesController"/>.
+    /// </summary>
+    /// <param name="sender">MediatR.</param>
     public NodesController(ISender sender) => _sender = sender;
 
     /// <summary>
-    /// Получить узлы
+    /// Получить узлы.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Коллекция узлов.</returns>
     [HttpGet]
     public async IAsyncEnumerable<NodeResult> GetNodes()
     {
@@ -43,9 +46,10 @@ public class NodesController : ControllerBase
     }
 
     /// <summary>
-    /// Добавить новый узел
+    /// Добавить новый узел.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="node">Узел для добавления.</param>
+    /// <returns>Ok.</returns>
     [HttpPost]
     public async Task<IActionResult> CreateNode(
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "RequestBodyNotSpecified")]

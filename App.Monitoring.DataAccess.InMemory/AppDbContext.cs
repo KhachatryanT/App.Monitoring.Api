@@ -4,16 +4,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Monitoring.DataAccess.InMemory;
 
-/// <inheritdoc />
+/// <summary>
+/// InMemory контекст БД.
+/// </summary>
 public sealed class AppDbContext: DbContext, IDbContext
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// <see cref="AppDbContext"/>.
+    /// </summary>
+    /// <param name="options"><see cref="DbContextOptions"/>.</param>
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
     /// <summary>
-    /// Узлы
+    /// Узлы.
     /// </summary>
     public DbSet<Node> Nodes { get; init; } = default!;
 }
