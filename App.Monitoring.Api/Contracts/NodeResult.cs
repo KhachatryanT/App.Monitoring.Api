@@ -1,12 +1,12 @@
 ﻿using System;
 using App.Monitoring.Entities.Enums;
 
-namespace App.Monitoring.Controllers.Models;
+namespace App.Monitoring.Api.Contracts;
 
 /// <summary>
 /// Узел.
 /// </summary>
-public class NodeResult
+public sealed class NodeResult
 {
     /// <summary>
     /// Тип устройства.
@@ -19,7 +19,7 @@ public class NodeResult
     public string Name { get; init; } = default!;
 
     /// <summary>
-    /// Дата последней статистики.
+    /// Дата статистики.
     /// </summary>
     public DateTimeOffset Date { get; init; }
 

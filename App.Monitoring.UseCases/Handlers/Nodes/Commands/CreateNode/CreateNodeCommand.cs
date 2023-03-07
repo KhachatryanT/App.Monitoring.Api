@@ -24,7 +24,7 @@ public sealed class CreateNodeCommand: ICommand
     public string Name { get; init; } = default!;
 
     /// <summary>
-    /// Дата последней статистики.
+    /// Дата статистики.
     /// </summary>
     public DateTimeOffset Date { get; init; }
 

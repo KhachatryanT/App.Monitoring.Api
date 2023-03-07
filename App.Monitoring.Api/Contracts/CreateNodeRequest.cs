@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using App.Monitoring.Entities.Enums;
 using App.Monitoring.Utils;
 
-namespace App.Monitoring.Controllers.Models;
+namespace App.Monitoring.Api.Contracts;
 
 /// <summary>
 /// Модель создания нового узла.
@@ -29,7 +29,7 @@ public sealed class CreateNodeRequest
     public string? Name { get; init; }
 
     /// <summary>
-    /// Дата последней статистики.
+    /// Дата статистики.
     /// </summary>
     [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "LastStatisticDateNotSpecified")]
     public DateTimeOffset? Date { get; init; }

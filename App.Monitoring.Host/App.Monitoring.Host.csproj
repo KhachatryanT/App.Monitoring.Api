@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\App.Monitoring.Controllers\App.Monitoring.Controllers.csproj" />
+    <ProjectReference Include="..\App.Monitoring.Api\App.Monitoring.Api.csproj" />
     <ProjectReference Include="..\App.Monitoring.DataAccess.InMemory\App.Monitoring.DataAccess.InMemory.csproj" />
     <ProjectReference Include="..\App.Monitoring.Infrastructure.Implementation\App.Monitoring.Infrastructure.Implementation.csproj" />
   </ItemGroup>

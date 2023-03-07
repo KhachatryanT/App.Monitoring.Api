@@ -5,22 +5,25 @@ using App.Monitoring.Entities.Models;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Monitoring.Controllers;
+namespace App.Monitoring.Api;
 
 /// <summary>
 /// Вспомогательный контроллерр.
 /// </summary>
+/// <remarks>
+/// Здесь находятся вспомогательные утилиты. Не для ревью.
+/// </remarks>
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly IDbContext _dbContext;
+    private readonly IMonitoringRepository _repository;
 
 
     /// <summary>
     /// <see cref="TestController"/>.
     /// </summary>
-    /// <param name="dbContext">БД контекст.</param>
-    public TestController(IDbContext dbContext) => _dbContext = dbContext;
+    /// <param name="repository">Репозиторий данных.</param>
+    public TestController(IMonitoringRepository repository) => _repository = repository;
 
     /// <summary>
     /// Наполнить БД случайными данными.
@@ -32,17 +35,15 @@ public class TestController : ControllerBase
     {
         for (var i = 0; i < itemsCount; i++)
         {
-            _dbContext.Nodes.Add(new Node
-            {
-                Date = DateTime.UtcNow,
-                Name = $"Name {i}",
-                ClientVersion = $"ClientVersion {i}",
-                DeviceId = Guid.NewGuid(),
-                DeviceType = (DeviceType)new Random(Environment.TickCount).Next(0, 5)
-            });
+            var node = new Node(Guid.NewGuid(),
+                (DeviceType)new Random(Environment.TickCount).Next(0, 5),
+                $"Name {i}",
+                $"ClientVersion {i}");
+            node.DefineDate(DateTimeOffset.UtcNow);
+            await _repository.CreateNodeAsync(node);
+            await Task.Delay(1);
         }
 
-        await _dbContext.SaveChangesAsync(HttpContext.RequestAborted);
         return Ok();
     }
 
@@ -52,8 +53,5 @@ public class TestController : ControllerBase
     /// <returns>Исключение.</returns>
     /// <exception cref="Exception">Исключение.</exception>
     [HttpGet("[action]")]
-    public IActionResult ThrowException()
-    {
-        throw new Exception("Requested exception was thrown");
-    }
+    public IActionResult ThrowException() => throw new Exception("Requested exception was thrown");
 }

@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using App.Monitoring.Controllers.Models;
+using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateNode;
 using App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
 using App.Monitoring.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.Monitoring.Controllers;
+namespace App.Monitoring.Api;
 
 /// <summary>
 /// Методы работы с узлами.
 /// </summary>
-[Route("node")]
-[ApiController]
+[Route("nodes")]
+//[ApiController]
 public class NodesController : ControllerBase
 {
     private readonly ISender _sender;
