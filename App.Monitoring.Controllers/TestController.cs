@@ -41,4 +41,15 @@ public class TestController : ControllerBase
         await _dbContext.SaveChangesAsync(HttpContext.RequestAborted);
         return Ok();
     }
+
+    /// <summary>
+    /// Выбросить исключение
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [HttpGet("[action]")]
+    public IActionResult ThrowException()
+    {
+        throw new Exception("Requested exception was thrown");
+    }
 }

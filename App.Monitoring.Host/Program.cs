@@ -2,15 +2,22 @@ using System;
 using System.IO;
 using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.InMemory;
-using App.Monitoring.Host.Application;
+using App.Monitoring.Infrastructure.Implementation.Application;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using App.Monitoring.UseCases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Host.UseSerilog(Log.Logger);
 
 builder.Services.AddControllers()
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -32,7 +39,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//app.UseExceptionHandler(b => b.Run(ExceptionHandling.ExceptionLog));
 app.UseHttpsRedirection();
 
+//app.UseActivityLogger();
 app.MapControllers();
 app.Run();

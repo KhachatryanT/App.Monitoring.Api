@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace App.Monitoring.Host.Application;
+namespace App.Monitoring.Infrastructure.Implementation.Application;
 
 /// <summary>
 /// Методы расширения EF миграций
