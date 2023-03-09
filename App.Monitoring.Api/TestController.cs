@@ -16,14 +16,14 @@ namespace App.Monitoring.Api;
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly IMonitoringRepository _repository;
+    private readonly IDevicesStatisticsRepository _repository;
 
 
     /// <summary>
     /// <see cref="TestController"/>.
     /// </summary>
-    /// <param name="repository">Репозиторий данных.</param>
-    public TestController(IMonitoringRepository repository) => _repository = repository;
+    /// <param name="repository">Репозиторий статистики устройств.</param>
+    public TestController(IDevicesStatisticsRepository repository) => _repository = repository;
 
     /// <summary>
     /// Наполнить БД случайными данными.

@@ -11,13 +11,13 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateOrUpd
 /// </summary>
 internal sealed class CreateOrUpdateDeviceStatisticCommandHandler : ICommandHandler<CreateOrUpdateDeviceStatisticCommand>
 {
-    private readonly IMonitoringRepository _repository;
+    private readonly IDevicesStatisticsRepository _repository;
 
     /// <summary>
     /// <see cref="CreateOrUpdateDeviceStatisticCommandHandler"/>.
     /// </summary>
-    /// <param name="repository">Репозиторий данных.</param>
-    public CreateOrUpdateDeviceStatisticCommandHandler(IMonitoringRepository repository) => _repository = repository;
+    /// <param name="repository">Репозиторий статистики устройств.</param>
+    public CreateOrUpdateDeviceStatisticCommandHandler(IDevicesStatisticsRepository repository) => _repository = repository;
 
     /// <inheritdoc/>
     public async Task Handle(CreateOrUpdateDeviceStatisticCommand request, CancellationToken cancellationToken)

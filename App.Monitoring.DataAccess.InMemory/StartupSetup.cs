@@ -13,5 +13,5 @@ public static class StartupSetup
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     public static void AddDataAccessInMemory(this IServiceCollection services) =>
-        services.AddScoped<IMonitoringRepository, MonitoringRepository>();
+        services.AddScoped<IDevicesStatisticsRepository, DevicesStatisticsRepository>();
 }

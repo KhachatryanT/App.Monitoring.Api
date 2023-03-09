@@ -7,9 +7,9 @@ using App.Monitoring.Entities.Models;
 namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 
 /// <summary>
-/// Репозиторий данных.
+/// Репозиторий статистики устройств.
 /// </summary>
-public interface IMonitoringRepository
+public interface IDevicesStatisticsRepository
 {
     /// <summary>
     /// Получить все статистики устройств.

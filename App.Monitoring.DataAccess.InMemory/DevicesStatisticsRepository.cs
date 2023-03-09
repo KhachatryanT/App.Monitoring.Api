@@ -10,9 +10,9 @@ using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 namespace App.Monitoring.DataAccess.InMemory;
 
 /// <summary>
-/// Репозиторий данных.
+/// Репозиторий статистики устройств.
 /// </summary>
-internal sealed class MonitoringRepository : IMonitoringRepository
+internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
 {
     private static readonly ConcurrentDictionary<Guid, DeviceStatistic> cache = new();
 
