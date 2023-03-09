@@ -25,7 +25,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.Monitoring.UseCases\App.Monitoring.UseCases.csproj" />
-    <ProjectReference Include="..\App.Monitoring.Utils\App.Monitoring.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ErrorMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

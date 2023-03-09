@@ -24,7 +24,7 @@ public interface IMonitoringRepository
     /// </summary>
     /// <param name="deviceId">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns></returns>
+    /// <returns>Узел.</returns>
     Task<Node> GetNodeAsync(Guid deviceId, CancellationToken cancellationToken);
 
     /// <summary>

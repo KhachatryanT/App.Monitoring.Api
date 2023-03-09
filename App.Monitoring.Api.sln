@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Host", "App.Monitoring.Host\App.Monitoring.Host.csproj", "{F0A6CA59-6294-4D49-B4E5-B87B294B29EC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 Utils", "0 Utils", "{4B44AFB1-7BA0-405A-8EDE-8F97CC540E6D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Entities", "1 Entities", "{8F0B03BA-C5DB-446C-A504-CF63DAFC39D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 UseCases", "2 UseCases", "{3FC4079C-6487-4733-A2EE-29BB3A98132C}"
@@ -21,8 +19,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.UseCases", "App.Monitoring.UseCases\App.Monitoring.UseCases.csproj", "{57236687-ACC1-482B-AEF0-53E49A213677}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Api", "App.Monitoring.Api\App.Monitoring.Api.csproj", "{624C134B-A5BB-4140-AB98-74BF8F7AB32E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Utils", "App.Monitoring.Utils\App.Monitoring.Utils.csproj", "{2EE4AAC3-410B-44B1-9868-CCAC11785616}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,10 +50,6 @@ Global
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EE4AAC3-410B-44B1-9868-CCAC11785616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EE4AAC3-410B-44B1-9868-CCAC11785616}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EE4AAC3-410B-44B1-9868-CCAC11785616}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EE4AAC3-410B-44B1-9868-CCAC11785616}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F0A6CA59-6294-4D49-B4E5-B87B294B29EC} = {BE0D8CC6-4F00-4EDA-BCC1-97BFB4A4D81B}
@@ -66,6 +58,5 @@ Global
 		{10224CB4-2265-41F1-A6FF-65C8FF7E245B} = {BE0D8CC6-4F00-4EDA-BCC1-97BFB4A4D81B}
 		{57236687-ACC1-482B-AEF0-53E49A213677} = {3FC4079C-6487-4733-A2EE-29BB3A98132C}
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E} = {5F63F988-05EE-4E3D-9E23-28F1F9F178B0}
-		{2EE4AAC3-410B-44B1-9868-CCAC11785616} = {4B44AFB1-7BA0-405A-8EDE-8F97CC540E6D}
 	EndGlobalSection
 EndGlobal
