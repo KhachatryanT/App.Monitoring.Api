@@ -32,7 +32,7 @@ public class NodesController : ControllerBase
     [HttpGet]
     public async IAsyncEnumerable<NodeResult> GetNodes()
     {
-        var nodes = await _sender.Send(new GetDeviceStatisticsQuery());
+        var nodes = _sender.CreateStream(new GetDeviceStatisticsQuery());
         await foreach (var node in nodes)
         {
             yield return new NodeResult

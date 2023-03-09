@@ -12,12 +12,10 @@ namespace App.Monitoring.Api.Contracts;
 public sealed record CreateNodeRequest : IValidatableObject
 {
     /// <summary>
-    /// Конструктор по-умолчанию для десериализации.
+    /// Конструктор по-умолчанию для десериализаторов.
     /// </summary>
     public CreateNodeRequest()
     {
-        UserName = string.Empty;
-        ClientVersion = string.Empty;
     }
 
     /// <summary>
@@ -34,13 +32,13 @@ public sealed record CreateNodeRequest : IValidatableObject
     /// Имя узла.
     /// </summary>
     [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "NodeNameNotSpecified")]
-    public string UserName { get; init; }
+    public string UserName { get; init; }= string.Empty;
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
     [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "ClientVersionNotSpecified")]
-    public string ClientVersion { get; init; }
+    public string ClientVersion { get; init; }= string.Empty;
 
     /// <inheritdoc />
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

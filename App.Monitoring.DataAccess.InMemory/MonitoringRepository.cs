@@ -21,12 +21,11 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллекция узлов.</returns>
-#pragma warning disable CS1998
     public async IAsyncEnumerable<Node> GetNodesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
-#pragma warning restore CS1998
     {
         foreach (var (_, value) in cache)
         {
+            await Task.Delay(1, cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             yield return value;
         }
@@ -41,14 +40,12 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     /// <exception cref="ArgumentException">Не удалось найти запись.</exception>
     public Task<Node> GetNodeAsync(Guid deviceId, CancellationToken cancellationToken)
     {
-        if (cache.TryGetValue(deviceId, out var node))
+        if (cache.TryGetValue(deviceId, out var node) || node is null)
         {
             throw new ArgumentException("Не удалось найти запись", nameof(deviceId));
         }
 
-#pragma warning disable CS8619
         return Task.FromResult(node);
-#pragma warning restore CS8619
     }
 
     /// <summary>

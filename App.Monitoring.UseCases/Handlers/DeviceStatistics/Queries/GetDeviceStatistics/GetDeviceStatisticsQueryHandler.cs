@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using App.Monitoring.Entities.Models;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 
@@ -9,7 +8,7 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Обработчик запроса получения узлов.
 /// </summary>
-internal sealed class GetDeviceStatisticsQueryHandler : IQueryHandler<GetDeviceStatisticsQuery, IAsyncEnumerable<Node>>
+internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetDeviceStatisticsQuery, Node>
 {
     private readonly IMonitoringRepository _repository;
 
@@ -20,6 +19,6 @@ internal sealed class GetDeviceStatisticsQueryHandler : IQueryHandler<GetDeviceS
     public GetDeviceStatisticsQueryHandler(IMonitoringRepository repository) => _repository = repository;
 
     /// <inheritdoc/>
-    public Task<IAsyncEnumerable<Node>> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
-        Task.FromResult(_repository.GetNodesAsync(cancellationToken));
+    public IAsyncEnumerable<Node> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
+        _repository.GetNodesAsync(cancellationToken);
 }

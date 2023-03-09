@@ -9,12 +9,10 @@ namespace App.Monitoring.Entities.Models;
 public sealed record Node
 {
     /// <summary>
-    /// Конструктор по-умолчанию для сериализаторов.
+    /// Конструктор по-умолчанию для десериализаторов.
     /// </summary>
     public Node()
     {
-        UserName = string.Empty;
-        ClientVersion = string.Empty;
     }
 
     /// <summary>
@@ -50,12 +48,12 @@ public sealed record Node
     /// <summary>
     /// Имя пользователя.
     /// </summary>
-    public string UserName { get; private set; }
+    public string UserName { get; private set; } = string.Empty;
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
-    public string ClientVersion { get; private set; }
+    public string ClientVersion { get; private set; } = string.Empty;
 
     /// <summary>
     /// Дата статистики.
