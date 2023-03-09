@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateOrUpdateDeviceStatistic;
-using App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceStatistic;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,29 +22,6 @@ public class StatisticController : ControllerBase
     /// </summary>
     /// <param name="sender">MediatR.</param>
     public StatisticController(ISender sender) => _sender = sender;
-
-    /// <summary>
-    /// Получить статистики устройств.
-    /// </summary>
-    /// <param name="id">Идентификатор устройства.</param>
-    /// <returns>Статистики устройств.</returns>
-    [HttpGet]
-    public async Task<ActionResult<DeviceStatisticResult>> GetDevicesStatistic(Guid id)
-    {
-        var deviceStatistic = await _sender.Send(new GetDeviceStatisticQuery(id));
-        if (deviceStatistic is null)
-        {
-            return NotFound();
-        }
-        return new DeviceStatisticResult
-        {
-            Id = deviceStatistic.Id,
-            DeviceType = deviceStatistic.DeviceType,
-            UserName = deviceStatistic.UserName,
-            ClientVersion = deviceStatistic.ClientVersion,
-            StatisticDate = deviceStatistic.StatisticDate,
-        };
-    }
 
     /// <summary>
     /// Добавить или обновить статистику устройства.
