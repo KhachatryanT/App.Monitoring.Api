@@ -13,22 +13,22 @@ public sealed record Node
     /// </summary>
     public Node()
     {
-        Name = string.Empty;
+        UserName = string.Empty;
         ClientVersion = string.Empty;
     }
 
     /// <summary>
     /// <see cref="Node"/>.
     /// </summary>
-    /// <param name="deviceId"><see cref="DeviceId"/>.</param>
-    /// <param name="deviceType"><see cref="DeviceType"/>.</param>
-    /// <param name="name"><see cref="Name"/>.</param>
-    /// <param name="clientVersion"><see cref="ClientVersion"/>.</param>
-    public Node(Guid deviceId, DeviceType deviceType, string name, string clientVersion)
+    /// <param name="deviceId">Идентификатор устройства.</param>
+    /// <param name="deviceType">Тип устройства.</param>
+    /// <param name="userName">Имя пользователя.</param>
+    /// <param name="clientVersion">Версия клиента.</param>
+    public Node(Guid deviceId, DeviceType deviceType, string userName, string clientVersion)
     {
         DeviceId = deviceId;
         DeviceType = deviceType;
-        Name = name;
+        UserName = userName;
         ClientVersion = clientVersion;
     }
 
@@ -51,10 +51,10 @@ public sealed record Node
     public DeviceType DeviceType { get; private set; }
 
     /// <summary>
-    /// Имя узла.
+    /// Имя пользователя.
     /// </summary>
     // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
-    public string Name { get; private set; }
+    public string UserName { get; private set; }
 
     /// <summary>
     /// Версия клиента.

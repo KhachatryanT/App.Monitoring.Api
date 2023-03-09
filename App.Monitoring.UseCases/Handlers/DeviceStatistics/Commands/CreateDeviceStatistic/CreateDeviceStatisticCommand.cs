@@ -21,7 +21,7 @@ public sealed class CreateDeviceStatisticCommand: ICommand
     /// <summary>
     /// Имя узла.
     /// </summary>
-    public string Name { get; init; } = default!;
+    public string UserName { get; init; } = default!;
 
     /// <summary>
     /// Версия клиента.

@@ -14,28 +14,43 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .CreateLogger();
-builder.Host.UseSerilog(Log.Logger);
 
-builder.Services.AddControllers()
-    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-builder.Services.AddSwaggerGen(o =>
+Log.Information("Загрузка приложения");
+try
 {
-    const string XmlFilename = $"{nameof(App)}.{nameof(App.Monitoring)}.{nameof(App.Monitoring.Api)}.xml";
-    o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
-});
+    builder.Host.UseSerilog(Log.Logger);
 
-builder.Services.AddDeviceStatisticsUseCases();
-builder.Services.AddDataAccessInMemory();
+    builder.Services.AddControllers()
+        .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    builder.Services.AddSwaggerGen(o =>
+    {
+        const string XmlFilename = $"{nameof(App)}.{nameof(App.Monitoring)}.{nameof(App.Monitoring.Api)}.xml";
+        o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
+    });
 
-var app = builder.Build();
+    builder.Services.AddDeviceStatisticsUseCases();
+    builder.Services.AddDataAccessInMemory();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.MapControllers();
+    app.Run();
+
 }
-
-app.UseHttpsRedirection();
-
-app.MapControllers();
-app.Run();
+catch (Exception e)
+{
+    Log.Fatal(e, "Возникло необработанное исключение. Завершение работы.");
+    throw;
+}
+finally
+{
+    Log.CloseAndFlush();
+}

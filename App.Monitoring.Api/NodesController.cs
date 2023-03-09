@@ -37,7 +37,7 @@ public class NodesController : ControllerBase
         {
             yield return new NodeResult
             {
-                Name = node.Name,
+                Name = node.UserName,
                 Date = node.Date,
                 ClientVersion = node.ClientVersion,
                 DeviceType = node.DeviceType
@@ -59,7 +59,7 @@ public class NodesController : ControllerBase
         {
             DeviceId = node.DeviceId,
             DeviceType = node.DeviceType,
-            Name = node.Name,
+            UserName = node.UserName,
             ClientVersion = node.ClientVersion,
         });
         return Ok();

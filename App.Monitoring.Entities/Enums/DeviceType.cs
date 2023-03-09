@@ -11,27 +11,17 @@ public enum DeviceType
     Unknown = 0,
 
     /// <summary>
-    /// <see cref="Android"/>.
+    /// Android.
     /// </summary>
     Android = 1,
 
     /// <summary>
-    /// <see cref="Iphone"/>.
+    /// Iphone.
     /// </summary>
     Iphone = 2,
 
     /// <summary>
-    /// <see cref="Windows"/>.
+    /// Windows.
     /// </summary>
     Windows = 3,
-
-    /// <summary>
-    /// <see cref="Linux"/>.
-    /// </summary>
-    Linux = 4,
-
-    /// <summary>
-    /// <see cref="MacOs"/>.
-    /// </summary>
-    MacOs = 5,
 }

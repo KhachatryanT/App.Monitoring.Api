@@ -16,7 +16,7 @@ public sealed record CreateNodeRequest : IValidatableObject
     /// </summary>
     public CreateNodeRequest()
     {
-        Name = string.Empty;
+        UserName = string.Empty;
         ClientVersion = string.Empty;
     }
 
@@ -35,7 +35,7 @@ public sealed record CreateNodeRequest : IValidatableObject
     /// </summary>
     [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "NodeNameNotSpecified")]
     // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-    public string Name { get; init; }
+    public string UserName { get; init; }
 
     /// <summary>
     /// Версия клиента.
@@ -51,11 +51,6 @@ public sealed record CreateNodeRequest : IValidatableObject
         if (DeviceId == default)
         {
             results.Add(new ValidationResult(ErrorMessages.DeviceIdNotSpecified, new[] { nameof(DeviceId) }));
-        }
-
-        if (DeviceType == default)
-        {
-            results.Add(new ValidationResult(ErrorMessages.DeviceTypeNotSpecified, new[] { nameof(DeviceType) }));
         }
 
         return results;

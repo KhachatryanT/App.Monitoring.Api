@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Monitoring.Entities.Models;
@@ -23,7 +23,7 @@ internal sealed class CreateDeviceStatisticCommandHandler: ICommandHandler<Creat
     /// <inheritdoc/>
     public async Task Handle(CreateDeviceStatisticCommand request, CancellationToken cancellationToken)
     {
-        var node = new Node(request.DeviceId, request.DeviceType, request.Name, request.ClientVersion);
+        var node = new Node(request.DeviceId, request.DeviceType, request.UserName, request.ClientVersion);
         node.DefineDate(DateTimeOffset.UtcNow);
 
         await _repository.CreateNodeAsync(node, cancellationToken);
