@@ -5,6 +5,6 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Запрос получения узлов.
 /// </summary>
-public sealed class GetDeviceStatisticsQuery : IStreamQuery<Node>
+public sealed class GetDeviceStatisticsQuery : IStreamQuery<DeviceStatistic>
 {
 }

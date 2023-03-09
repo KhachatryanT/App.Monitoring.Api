@@ -6,7 +6,7 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Запрос получения узла.
 /// </summary>
-public sealed record GetDeviceStatisticQuery : IQuery<Node>
+public sealed record GetDeviceStatisticQuery : IQuery<DeviceStatistic>
 {
     /// <summary>
     /// <see cref="GetDeviceStatisticQuery"/>.

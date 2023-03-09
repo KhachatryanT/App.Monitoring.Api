@@ -8,7 +8,7 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Обработчик запроса получения узлов.
 /// </summary>
-internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetDeviceStatisticsQuery, Node>
+internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetDeviceStatisticsQuery, DeviceStatistic>
 {
     private readonly IMonitoringRepository _repository;
 
@@ -19,6 +19,6 @@ internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetD
     public GetDeviceStatisticsQueryHandler(IMonitoringRepository repository) => _repository = repository;
 
     /// <inheritdoc/>
-    public IAsyncEnumerable<Node> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
-        _repository.GetNodesAsync(cancellationToken);
+    public IAsyncEnumerable<DeviceStatistic> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
+        _repository.GetDevicesStatisticsAsync(cancellationToken);
 }

@@ -9,7 +9,7 @@ namespace App.Monitoring.Api.Contracts;
 /// <summary>
 /// Модель создания нового узла.
 /// </summary>
-public sealed record CreateNodeRequest : IValidatableObject
+public sealed record CreateDeviceStatisticRequest : IValidatableObject
 {
     /// <summary>
     /// Идентификатор устройства.

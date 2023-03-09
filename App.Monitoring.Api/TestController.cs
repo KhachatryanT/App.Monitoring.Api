@@ -35,12 +35,12 @@ public class TestController : ControllerBase
     {
         for (var i = 0; i < itemsCount; i++)
         {
-            var node = new Node(Guid.NewGuid(),
+            var deviceStatistic = new DeviceStatistic(Guid.NewGuid(),
                 (DeviceType)new Random(Environment.TickCount).Next(0, 5),
                 $"User name {i}",
                 $"ClientVersion {i}",
                 DateTimeOffset.UtcNow);
-            await _repository.CreateNodeAsync(node);
+            await _repository.CreateDeviceStatisticAsync(deviceStatistic);
             await Task.Delay(1);
         }
 

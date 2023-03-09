@@ -16,30 +16,30 @@ public interface IMonitoringRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллеция узлов.</returns>
-    IAsyncEnumerable<Node> GetNodesAsync(CancellationToken cancellationToken);
+    IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
 
 
     /// <summary>
-    /// Получить узел.
+    /// Получить статистику устройства.
     /// </summary>
     /// <param name="deviceId">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Узел.</returns>
-    Task<Node> GetNodeAsync(Guid deviceId, CancellationToken cancellationToken);
+    /// <returns>Статистика устройства.</returns>
+    Task<DeviceStatistic> GetDeviceStatisticAsync(Guid deviceId, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Создать новый узел.
+    /// Создать статистику устройства.
     /// </summary>
-    /// <param name="node">Узел.</param>
+    /// <param name="deviceStatistic">Статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task CreateNodeAsync(Node node, CancellationToken cancellationToken = default);
+    Task CreateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Обновить узел.
+    /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="node">Узел.</param>
+    /// <param name="deviceStatistic">Статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default);
+    Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default);
 }

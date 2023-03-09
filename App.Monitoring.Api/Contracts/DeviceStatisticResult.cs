@@ -4,9 +4,9 @@ using App.Monitoring.Entities.Enums;
 namespace App.Monitoring.Api.Contracts;
 
 /// <summary>
-/// Узел.
+/// Статистика устройства.
 /// </summary>
-public sealed class NodeResult
+public sealed class DeviceStatisticResult
 {
     /// <summary>
     /// Тип устройства.
@@ -14,7 +14,7 @@ public sealed class NodeResult
     public DeviceType DeviceType { get; set; }
 
     /// <summary>
-    /// Имя узла.
+    /// Имя пользователя.
     /// </summary>
     public string? Name { get; set; }
 

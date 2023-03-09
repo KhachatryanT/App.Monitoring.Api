@@ -14,14 +14,14 @@ namespace App.Monitoring.DataAccess.InMemory;
 /// </summary>
 internal sealed class MonitoringRepository : IMonitoringRepository
 {
-    private static readonly ConcurrentDictionary<Guid, Node> cache = new();
+    private static readonly ConcurrentDictionary<Guid, DeviceStatistic> cache = new();
 
     /// <summary>
     /// Получить узлы.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллекция узлов.</returns>
-    public async IAsyncEnumerable<Node> GetNodesAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var (_, value) in cache)
         {
@@ -32,56 +32,56 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     }
 
     /// <summary>
-    /// Получить узел.
+    /// Получить статистику устройства.
     /// </summary>
     /// <param name="deviceId">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Узел.</returns>
+    /// <returns>Статистика устройства.</returns>
     /// <exception cref="ArgumentException">Не удалось найти запись.</exception>
-    public Task<Node> GetNodeAsync(Guid deviceId, CancellationToken cancellationToken)
+    public Task<DeviceStatistic> GetDeviceStatisticAsync(Guid deviceId, CancellationToken cancellationToken)
     {
-        if (cache.TryGetValue(deviceId, out var node) || node is null)
+        if (cache.TryGetValue(deviceId, out var deviceStatistic) || deviceStatistic is null)
         {
             throw new ArgumentException("Не удалось найти запись", nameof(deviceId));
         }
 
-        return Task.FromResult(node);
+        return Task.FromResult(deviceStatistic);
     }
 
     /// <summary>
-    /// Создать новый узел.
+    /// Создать новую статистику устройства.
     /// </summary>
-    /// <param name="node">Узел.</param>
+    /// <param name="deviceStatistic">Статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    /// <exception cref="ArgumentException">Невозможно добавить узел. Узел уже существует.</exception>
-    public Task CreateNodeAsync(Node node, CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentException">Невозможно добавить статистику устройства. Статистика уже существует.</exception>
+    public Task CreateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
     {
-        if (!cache.TryAdd(node.DeviceId, node))
+        if (!cache.TryAdd(deviceStatistic.Id, deviceStatistic))
         {
-            throw new ArgumentException("Не удалось добавить запись", nameof(node));
+            throw new ArgumentException("Не удалось добавить запись", nameof(deviceStatistic));
         }
 
         return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Обновление узла.
+    /// Обновление статистики устройства.
     /// </summary>
-    /// <param name="node">Узел.</param>
+    /// <param name="deviceStatistic">Статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    /// <exception cref="ArgumentException">Невозможно обновить узел. Возможно узел с указанным ключом не существует.</exception>
-    public Task UpdateNodeAsync(Node node, CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentException">Невозможно обновить статистику устройства. Возможно статистики с указанным ключом не существует.</exception>
+    public Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
     {
-        if (!cache.TryGetValue(node.DeviceId, out var existingNode))
+        if (!cache.TryGetValue(deviceStatistic.Id, out var existingDeviceStatistic))
         {
-            throw new ArgumentException("Не удалось найти запись по указанному ключу", nameof(node.DeviceId));
+            throw new ArgumentException("Не удалось найти запись по указанному ключу", nameof(deviceStatistic.Id));
         }
 
-        if (!cache.TryUpdate(node.DeviceId, node, existingNode))
+        if (!cache.TryUpdate(deviceStatistic.Id, deviceStatistic, existingDeviceStatistic))
         {
-            throw new ArgumentException("Не удалось обновить запись", nameof(node));
+            throw new ArgumentException("Не удалось обновить запись", nameof(deviceStatistic));
         }
 
         return Task.CompletedTask;

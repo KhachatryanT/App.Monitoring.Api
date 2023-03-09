@@ -22,7 +22,7 @@ internal sealed class CreateDeviceStatisticCommandHandler: ICommandHandler<Creat
     /// <inheritdoc/>
     public async Task Handle(CreateDeviceStatisticCommand request, CancellationToken cancellationToken)
     {
-        var node = new Node(request.DeviceId, request.DeviceType, request.UserName, request.ClientVersion, DateTimeOffset.UtcNow);
-        await _repository.CreateNodeAsync(node, cancellationToken);
+        var deviceStatistic = new DeviceStatistic(request.DeviceId, request.DeviceType, request.UserName, request.ClientVersion, DateTimeOffset.UtcNow);
+        await _repository.CreateDeviceStatisticAsync(deviceStatistic, cancellationToken);
     }
 }
