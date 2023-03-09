@@ -9,7 +9,6 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateDevic
 /// <summary>
 /// Обработчик команды создания узла.
 /// </summary>
-// ReSharper disable once UnusedType.Global
 internal sealed class CreateDeviceStatisticCommandHandler: ICommandHandler<CreateDeviceStatisticCommand>
 {
     private readonly IMonitoringRepository _repository;

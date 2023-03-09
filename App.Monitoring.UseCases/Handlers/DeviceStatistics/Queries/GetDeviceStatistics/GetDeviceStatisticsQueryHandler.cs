@@ -9,7 +9,6 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Обработчик запроса получения узлов.
 /// </summary>
-// ReSharper disable once UnusedType.Global
 internal sealed class GetDeviceStatisticsQueryHandler : IQueryHandler<GetDeviceStatisticsQuery, IAsyncEnumerable<Node>>
 {
     private readonly IMonitoringRepository _repository;

@@ -35,31 +35,26 @@ public sealed record Node
     /// <summary>
     /// Идентификатор записи.
     /// </summary>
-    // ReSharper disable once UnusedAutoPropertyAccessor.Local
     public int Id { get; private set; }
 
     /// <summary>
     /// Идентификатор устройства.
     /// </summary>
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
     public Guid DeviceId { get; private set; }
 
     /// <summary>
     /// Тип устройства.
     /// </summary>
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
     public DeviceType DeviceType { get; private set; }
 
     /// <summary>
     /// Имя пользователя.
     /// </summary>
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
     public string UserName { get; private set; }
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
     public string ClientVersion { get; private set; }
 
     /// <summary>

@@ -34,14 +34,12 @@ public sealed record CreateNodeRequest : IValidatableObject
     /// Имя узла.
     /// </summary>
     [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "NodeNameNotSpecified")]
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
     public string UserName { get; init; }
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
     [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "ClientVersionNotSpecified")]
-    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
     public string ClientVersion { get; init; }
 
     /// <inheritdoc />

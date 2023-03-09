@@ -9,7 +9,7 @@ namespace App.Monitoring.UseCases;
 public static class StartupSetup
 {
     /// <summary>
-    /// Добавление use cases по работе со статистикой
+    /// Добавление use cases по работе со статистикой.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     public static void AddDeviceStatisticsUseCases(this IServiceCollection services)
