@@ -18,22 +18,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DeviceTypeNotSpecified" xml:space="preserve">
-    <value>Не передан тип устройства.</value>
-  </data>
   <data name="DeviceIdNotSpecified" xml:space="preserve">
     <value>Не передан идентификатор устройства.</value>
   </data>
-  <data name="NodeNameNotSpecified" xml:space="preserve">
-    <value>Не передано имя узла.</value>
-  </data>
-  <data name="ClientVersionNotSpecified" xml:space="preserve">
-    <value>Не передана версия клиента.</value>
-  </data>
   <data name="RequestBodyNotSpecified" xml:space="preserve">
     <value>Не передано тело запроса.</value>
-  </data>
-  <data name="NowAllowedValue" xml:space="preserve">
-    <value>Недопустимое значение.</value>
   </data>
 </root>

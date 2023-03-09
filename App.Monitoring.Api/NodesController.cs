@@ -38,7 +38,7 @@ public class NodesController : ControllerBase
             yield return new NodeResult
             {
                 Name = node.UserName,
-                Date = node.Date,
+                StatisticDate = node.StatisticDate,
                 ClientVersion = node.ClientVersion,
                 DeviceType = node.DeviceType
             };

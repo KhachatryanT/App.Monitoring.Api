@@ -39,7 +39,7 @@ namespace App.Monitoring.Utils {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Monitoring.Utils.ErrorMessages", typeof(ErrorMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Monitoring.Api.ErrorMessages", typeof(ErrorMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,11 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передана версия клиента..
-        /// </summary>
-        public static string ClientVersionNotSpecified {
-            get {
-                return ResourceManager.GetString("ClientVersionNotSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Не передан идентификатор устройства..
         /// </summary>
         public static string DeviceIdNotSpecified {
             get {
                 return ResourceManager.GetString("DeviceIdNotSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не передан тип устройства..
-        /// </summary>
-        public static string DeviceTypeNotSpecified {
-            get {
-                return ResourceManager.GetString("DeviceTypeNotSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не передано имя узла..
-        /// </summary>
-        public static string NodeNameNotSpecified {
-            get {
-                return ResourceManager.GetString("NodeNameNotSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Недопустимое значение..
-        /// </summary>
-        public static string NowAllowedValue {
-            get {
-                return ResourceManager.GetString("NowAllowedValue", resourceCulture);
             }
         }
         

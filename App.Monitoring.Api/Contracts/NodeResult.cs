@@ -11,20 +11,20 @@ public sealed class NodeResult
     /// <summary>
     /// Тип устройства.
     /// </summary>
-    public DeviceType DeviceType { get; init; }
+    public DeviceType DeviceType { get; set; }
 
     /// <summary>
     /// Имя узла.
     /// </summary>
-    public string Name { get; init; } = default!;
+    public string? Name { get; set; }
 
     /// <summary>
     /// Дата статистики.
     /// </summary>
-    public DateTimeOffset Date { get; init; }
+    public DateTimeOffset StatisticDate { get; set; }
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
-    public string ClientVersion { get; init; } = default!;
+    public string? ClientVersion { get; set; }
 }

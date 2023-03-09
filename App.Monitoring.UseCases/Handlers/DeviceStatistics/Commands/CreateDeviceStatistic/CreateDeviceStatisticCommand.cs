@@ -21,10 +21,10 @@ public sealed class CreateDeviceStatisticCommand: ICommand
     /// <summary>
     /// Имя узла.
     /// </summary>
-    public string UserName { get; init; } = default!;
+    public string? UserName { get; init; }
 
     /// <summary>
     /// Версия клиента.
     /// </summary>
-    public string ClientVersion { get; init; } = default!;
+    public string? ClientVersion { get; init; }
 }

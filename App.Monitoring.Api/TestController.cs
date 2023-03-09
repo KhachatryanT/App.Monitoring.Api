@@ -37,9 +37,9 @@ public class TestController : ControllerBase
         {
             var node = new Node(Guid.NewGuid(),
                 (DeviceType)new Random(Environment.TickCount).Next(0, 5),
-                $"Name {i}",
-                $"ClientVersion {i}");
-            node.DefineDate(DateTimeOffset.UtcNow);
+                $"User name {i}",
+                $"ClientVersion {i}",
+                DateTimeOffset.UtcNow);
             await _repository.CreateNodeAsync(node);
             await Task.Delay(1);
         }
