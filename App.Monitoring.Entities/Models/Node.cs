@@ -9,7 +9,7 @@ namespace App.Monitoring.Entities.Models;
 public sealed record Node
 {
     /// <summary>
-    /// Конструктор по-умолчанию для сериализаторов
+    /// Конструктор по-умолчанию для сериализаторов.
     /// </summary>
     public Node()
     {
@@ -68,8 +68,8 @@ public sealed record Node
     public DateTimeOffset Date { get; private set; }
 
     /// <summary>
-    /// Установить дату статистики
+    /// Установить дату статистики.
     /// </summary>
-    /// <param name="date"></param>
+    /// <param name="date">Дата статистики.</param>
     public void DefineDate(DateTimeOffset date) => Date = date;
 }

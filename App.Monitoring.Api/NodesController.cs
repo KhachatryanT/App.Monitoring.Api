@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
-using App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateNode;
-using App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
+using App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateDeviceStatistic;
+using App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceStatistics;
 using App.Monitoring.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace App.Monitoring.Api;
 /// Методы работы с узлами.
 /// </summary>
 [Route("nodes")]
-//[ApiController]
+[ApiController]
 public class NodesController : ControllerBase
 {
     private readonly ISender _sender;
@@ -32,7 +32,7 @@ public class NodesController : ControllerBase
     [HttpGet]
     public async IAsyncEnumerable<NodeResult> GetNodes()
     {
-        var nodes = await _sender.Send(new GetNodesQuery());
+        var nodes = await _sender.Send(new GetDeviceStatisticsQuery());
         await foreach (var node in nodes)
         {
             yield return new NodeResult
@@ -55,13 +55,12 @@ public class NodesController : ControllerBase
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "RequestBodyNotSpecified")]
         CreateNodeRequest node)
     {
-        await _sender.Send(new CreateNodeCommand
+        await _sender.Send(new CreateDeviceStatisticCommand
         {
-            DeviceId = node.DeviceId!.Value,
-            DeviceType = node.DeviceType!.Value,
-            Name = node.Name!,
-            Date = node.Date!.Value,
-            ClientVersion = node.ClientVersion!
+            DeviceId = node.DeviceId,
+            DeviceType = node.DeviceType,
+            Name = node.Name,
+            ClientVersion = node.ClientVersion,
         });
         return Ok();
     }

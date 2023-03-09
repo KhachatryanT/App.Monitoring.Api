@@ -1,12 +1,12 @@
 ﻿using System;
 using App.Monitoring.Entities.Enums;
 
-namespace App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateNode;
+namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateDeviceStatistic;
 
 /// <summary>
 /// Модель создания нового узла.
 /// </summary>
-public sealed class CreateNodeCommand: ICommand
+public sealed class CreateDeviceStatisticCommand: ICommand
 {
     /// <summary>
     /// Идентификатор устройства.
@@ -22,11 +22,6 @@ public sealed class CreateNodeCommand: ICommand
     /// Имя узла.
     /// </summary>
     public string Name { get; init; } = default!;
-
-    /// <summary>
-    /// Дата статистики.
-    /// </summary>
-    public DateTimeOffset Date { get; init; }
 
     /// <summary>
     /// Версия клиента.

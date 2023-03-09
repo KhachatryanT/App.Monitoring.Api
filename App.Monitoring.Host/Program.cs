@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(o =>
     o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
 });
 
-builder.Services.AddUseCases();
+builder.Services.AddDeviceStatisticsUseCases();
 builder.Services.AddDataAccessInMemory();
 
 var app = builder.Build();

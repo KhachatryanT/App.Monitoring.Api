@@ -61,7 +61,7 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передана версия клиента.
+        ///   Looks up a localized string similar to Не передана версия клиента..
         /// </summary>
         public static string ClientVersionNotSpecified {
             get {
@@ -70,7 +70,7 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передан идентификатор устройства.
+        ///   Looks up a localized string similar to Не передан идентификатор устройства..
         /// </summary>
         public static string DeviceIdNotSpecified {
             get {
@@ -79,7 +79,7 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передан тип устройства.
+        ///   Looks up a localized string similar to Не передан тип устройства..
         /// </summary>
         public static string DeviceTypeNotSpecified {
             get {
@@ -88,16 +88,7 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передана дата последней статистики.
-        /// </summary>
-        public static string LastStatisticDateNotSpecified {
-            get {
-                return ResourceManager.GetString("LastStatisticDateNotSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не передано имя узла.
+        ///   Looks up a localized string similar to Не передано имя узла..
         /// </summary>
         public static string NodeNameNotSpecified {
             get {
@@ -106,7 +97,16 @@ namespace App.Monitoring.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не передано тело запроса.
+        ///   Looks up a localized string similar to Недопустимое значение..
+        /// </summary>
+        public static string NowAllowedValue {
+            get {
+                return ResourceManager.GetString("NowAllowedValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не передано тело запроса..
         /// </summary>
         public static string RequestBodyNotSpecified {
             get {
