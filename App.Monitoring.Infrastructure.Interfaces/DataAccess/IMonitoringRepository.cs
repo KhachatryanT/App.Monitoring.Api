@@ -12,20 +12,19 @@ namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 public interface IMonitoringRepository
 {
     /// <summary>
-    /// Получить все узлы.
+    /// Получить все статистики устройств.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Коллеция узлов.</returns>
+    /// <returns>Статистики устройств.</returns>
     IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
-
 
     /// <summary>
     /// Получить статистику устройства.
     /// </summary>
-    /// <param name="deviceId">Идентификатор устройства.</param>
+    /// <param name="id">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистика устройства.</returns>
-    Task<DeviceStatistic> GetDeviceStatisticAsync(Guid deviceId, CancellationToken cancellationToken);
+    Task<DeviceStatistic?> GetDeviceStatisticOrDefaultAsync(Guid id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Создать статистику устройства.
@@ -38,8 +37,9 @@ public interface IMonitoringRepository
     /// <summary>
     /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="deviceStatistic">Статистика устройства.</param>
+    /// <param name="newDeviceStatistic">Новая статистика устройства.</param>
+    /// <param name="oldDeviceStatistic">Существующая статистика устройства. Необходима для сверки с хранимыми данными.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default);
+    Task UpdateDeviceStatisticAsync(DeviceStatistic newDeviceStatistic, DeviceStatistic oldDeviceStatistic, CancellationToken cancellationToken = default);
 }

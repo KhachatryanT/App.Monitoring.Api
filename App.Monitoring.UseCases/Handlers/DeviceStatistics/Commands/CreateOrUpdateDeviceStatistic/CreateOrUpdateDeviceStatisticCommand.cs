@@ -1,17 +1,17 @@
 ﻿using System;
 using App.Monitoring.Entities.Enums;
 
-namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateDeviceStatistic;
+namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateOrUpdateDeviceStatistic;
 
 /// <summary>
-/// Модель создания нового узла.
+/// Модель создания новой статистики устройства.
 /// </summary>
-public sealed class CreateDeviceStatisticCommand: ICommand
+public sealed class CreateOrUpdateDeviceStatisticCommand: ICommand
 {
     /// <summary>
     /// Идентификатор устройства.
     /// </summary>
-    public Guid DeviceId { get; init; }
+    public Guid Id { get; init; }
 
     /// <summary>
     /// Тип устройства.
@@ -19,7 +19,7 @@ public sealed class CreateDeviceStatisticCommand: ICommand
     public DeviceType DeviceType { get; init; }
 
     /// <summary>
-    /// Имя узла.
+    /// Имя пользователя.
     /// </summary>
     public string? UserName { get; init; }
 

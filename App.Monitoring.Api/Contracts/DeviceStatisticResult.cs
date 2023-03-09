@@ -6,8 +6,13 @@ namespace App.Monitoring.Api.Contracts;
 /// <summary>
 /// Статистика устройства.
 /// </summary>
-public sealed class DeviceStatisticResult
+public class DeviceStatisticResult
 {
+    /// <summary>
+    /// Идентификатор устройства.
+    /// </summary>
+    public Guid Id { get; set; }
+    
     /// <summary>
     /// Тип устройства.
     /// </summary>
@@ -16,7 +21,7 @@ public sealed class DeviceStatisticResult
     /// <summary>
     /// Имя пользователя.
     /// </summary>
-    public string? Name { get; set; }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// Дата статистики.

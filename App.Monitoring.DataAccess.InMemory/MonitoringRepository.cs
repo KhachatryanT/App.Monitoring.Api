@@ -17,10 +17,10 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     private static readonly ConcurrentDictionary<Guid, DeviceStatistic> cache = new();
 
     /// <summary>
-    /// Получить узлы.
+    /// Получить статистики устройств.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Коллекция узлов.</returns>
+    /// <returns>Статистики устройств.</returns>
     public async IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var (_, value) in cache)
@@ -34,17 +34,12 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     /// <summary>
     /// Получить статистику устройства.
     /// </summary>
-    /// <param name="deviceId">Идентификатор устройства.</param>
+    /// <param name="id">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистика устройства.</returns>
-    /// <exception cref="ArgumentException">Не удалось найти запись.</exception>
-    public Task<DeviceStatistic> GetDeviceStatisticAsync(Guid deviceId, CancellationToken cancellationToken)
+    public Task<DeviceStatistic?> GetDeviceStatisticOrDefaultAsync(Guid id, CancellationToken cancellationToken)
     {
-        if (cache.TryGetValue(deviceId, out var deviceStatistic) || deviceStatistic is null)
-        {
-            throw new ArgumentException("Не удалось найти запись", nameof(deviceId));
-        }
-
+        cache.TryGetValue(id, out var deviceStatistic);
         return Task.FromResult(deviceStatistic);
     }
 
@@ -66,22 +61,18 @@ internal sealed class MonitoringRepository : IMonitoringRepository
     }
 
     /// <summary>
-    /// Обновление статистики устройства.
+    /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="deviceStatistic">Статистика устройства.</param>
+    /// <param name="newDeviceStatistic">Новая статистика устройства.</param>
+    /// <param name="oldDeviceStatistic">Существующая статистика устройства. Необходима для сверки с хранимыми данными.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     /// <exception cref="ArgumentException">Невозможно обновить статистику устройства. Возможно статистики с указанным ключом не существует.</exception>
-    public Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
+    public Task UpdateDeviceStatisticAsync(DeviceStatistic newDeviceStatistic, DeviceStatistic oldDeviceStatistic, CancellationToken cancellationToken = default)
     {
-        if (!cache.TryGetValue(deviceStatistic.Id, out var existingDeviceStatistic))
+        if (!cache.TryUpdate(newDeviceStatistic.Id, newDeviceStatistic, oldDeviceStatistic))
         {
-            throw new ArgumentException("Не удалось найти запись по указанному ключу", nameof(deviceStatistic.Id));
-        }
-
-        if (!cache.TryUpdate(deviceStatistic.Id, deviceStatistic, existingDeviceStatistic))
-        {
-            throw new ArgumentException("Не удалось обновить запись", nameof(deviceStatistic));
+            throw new ArgumentException("Не удалось обновить запись", nameof(newDeviceStatistic));
         }
 
         return Task.CompletedTask;

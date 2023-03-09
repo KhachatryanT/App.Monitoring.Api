@@ -6,7 +6,7 @@ using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceStatistics;
 
 /// <summary>
-/// Обработчик запроса получения узлов.
+/// Обработчик запроса получения статистики устройств.
 /// </summary>
 internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetDeviceStatisticsQuery, DeviceStatistic>
 {
