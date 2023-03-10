@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.InMemory;
 using App.Monitoring.UseCases;
@@ -23,10 +22,12 @@ try
 
     builder.Services.AddControllers()
         .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-    builder.Services.AddSwaggerGen(o =>
+    builder.Services.AddSwaggerDocument(s =>
     {
-        const string XmlFilename = $"{nameof(App)}.{nameof(App.Monitoring)}.{nameof(App.Monitoring.Api)}.xml";
-        o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
+        s.PostProcess = doc =>
+        {
+            doc.Info.Title = "Сервис мониторинга";
+        };
     });
 
     builder.Services.AddDeviceStatisticsUseCases();
@@ -46,8 +47,8 @@ try
 
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseOpenApi();
+        app.UseSwaggerUi3();
     }
 
     app.UseHttpsRedirection();
@@ -55,7 +56,6 @@ try
 
     app.MapControllers();
     app.Run();
-
 }
 catch (Exception e)
 {
