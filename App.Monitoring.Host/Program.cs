@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.InMemory;
 using App.Monitoring.UseCases;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -31,6 +32,16 @@ try
     builder.Services.AddDeviceStatisticsUseCases();
     builder.Services.AddDataAccessInMemory();
 
+    builder.Services.AddCors(o =>
+    {
+        o.AddDefaultPolicy(p =>
+        {
+            var allowedDomains = builder.Configuration.GetSection("AllowedDomains").Get<string[]>() ?? Array.Empty<string>();
+            p.WithOrigins(allowedDomains)
+                .AllowAnyHeader();
+        });
+    });
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
@@ -40,6 +51,7 @@ try
     }
 
     app.UseHttpsRedirection();
+    app.UseCors();
 
     app.MapControllers();
     app.Run();

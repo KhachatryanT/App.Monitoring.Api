@@ -36,7 +36,7 @@ public class TestController : ControllerBase
         for (var i = 0; i < itemsCount; i++)
         {
             var deviceStatistic = new DeviceStatistic(Guid.NewGuid(),
-                (DeviceType)new Random(Environment.TickCount).Next(0, 5),
+                (DeviceType)new Random(Environment.TickCount).Next(0, 3),
                 $"User name {i}",
                 $"ClientVersion {i}",
                 DateTimeOffset.UtcNow);
