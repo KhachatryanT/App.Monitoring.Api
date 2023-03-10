@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Monitoring.Entities.Models;
@@ -21,15 +21,8 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    public async IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync([EnumeratorCancellation] CancellationToken cancellationToken)
-    {
-        foreach (var (_, value) in cache)
-        {
-            await Task.Delay(1, cancellationToken);
-            cancellationToken.ThrowIfCancellationRequested();
-            yield return value;
-        }
-    }
+    public IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
+        cache.Values.ToAsyncEnumerable();
 
     /// <summary>
     /// Получить статистику устройства.
