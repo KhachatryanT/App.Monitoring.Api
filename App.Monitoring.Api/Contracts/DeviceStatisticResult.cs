@@ -6,30 +6,9 @@ namespace App.Monitoring.Api.Contracts;
 /// <summary>
 /// Статистика устройства.
 /// </summary>
-public class DeviceStatisticResult
-{
-    /// <summary>
-    /// Идентификатор устройства.
-    /// </summary>
-    public Guid Id { get; set; }
-    
-    /// <summary>
-    /// Тип устройства.
-    /// </summary>
-    public DeviceType DeviceType { get; set; }
-
-    /// <summary>
-    /// Имя пользователя.
-    /// </summary>
-    public string? UserName { get; set; }
-
-    /// <summary>
-    /// Дата статистики.
-    /// </summary>
-    public DateTimeOffset StatisticDate { get; set; }
-
-    /// <summary>
-    /// Версия клиента.
-    /// </summary>
-    public string? ClientVersion { get; set; }
-}
+/// <param name="Id">Идентификатор устройства.</param>
+/// <param name="DeviceType">Тип устройства.</param>
+/// <param name="UserName">Имя пользователя.</param>
+/// <param name="StatisticDate">Дата статистики.</param>
+/// <param name="ClientVersion">Версия клиента.</param>
+public sealed record DeviceStatisticResult(Guid Id, DeviceType DeviceType, string? UserName, DateTimeOffset StatisticDate, string? ClientVersion);

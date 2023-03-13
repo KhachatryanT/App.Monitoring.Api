@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.InMemory;
 using App.Monitoring.UseCases;
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +44,11 @@ try
                 .AllowAnyHeader();
         });
     });
+
+    var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+        .Where(x => x.FullName is not null && x.FullName.StartsWith(nameof(App)))
+        .ToArray();
+    TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
     var app = builder.Build();
 
