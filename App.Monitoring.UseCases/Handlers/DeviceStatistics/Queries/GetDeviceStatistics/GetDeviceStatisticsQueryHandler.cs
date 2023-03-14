@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using App.Monitoring.Entities.Models;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 
@@ -8,7 +9,7 @@ namespace App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceSta
 /// <summary>
 /// Обработчик запроса получения статистики устройств.
 /// </summary>
-internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetDeviceStatisticsQuery, DeviceStatistic>
+internal sealed class GetDeviceStatisticsQueryHandler : IQueryHandler<GetDeviceStatisticsQuery, IEnumerable<DeviceStatistic>>
 {
     private readonly IDevicesStatisticsRepository _repository;
 
@@ -19,6 +20,6 @@ internal sealed class GetDeviceStatisticsQueryHandler : IStreamQueryHandler<GetD
     public GetDeviceStatisticsQueryHandler(IDevicesStatisticsRepository repository) => _repository = repository;
 
     /// <inheritdoc/>
-    public IAsyncEnumerable<DeviceStatistic> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
+    public Task<IEnumerable<DeviceStatistic>> Handle(GetDeviceStatisticsQuery request, CancellationToken cancellationToken) =>
         _repository.GetDevicesStatisticsAsync(cancellationToken);
 }

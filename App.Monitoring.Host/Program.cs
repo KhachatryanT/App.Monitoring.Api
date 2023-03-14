@@ -61,7 +61,7 @@ try
     builder.Services.AddDataAccessDapperPostgresMigrator(postgresConnection);
 
     var app = builder.Build();
-    app.Services.MigrateDatabase();
+    app.MigrateDatabase();
 
     if (app.Environment.IsDevelopment())
     {

@@ -11,4 +11,16 @@ namespace App.Monitoring.Entities.Models;
 /// <param name="UserName">Имя пользователя.</param>
 /// <param name="ClientVersion">Версия клиента.</param>
 /// <param name="StatisticDate">Дата статистики.</param>
-public sealed record DeviceStatistic(Guid Id, DeviceType DeviceType, string? UserName, string? ClientVersion, DateTimeOffset StatisticDate);
+public sealed record DeviceStatistic(Guid Id, DeviceType DeviceType, string? UserName, string? ClientVersion, DateTimeOffset StatisticDate)
+{
+    /// <summary>
+    /// Инициализация типа <see cref="DeviceStatistic"/>.
+    /// </summary>
+    /// <remarks>
+    /// Необходим для десериализаторов.
+    /// </remarks>
+    public DeviceStatistic()
+        : this(default, default, default, default, default)
+    {
+    }
+}

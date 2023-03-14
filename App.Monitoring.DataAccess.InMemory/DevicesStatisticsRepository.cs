@@ -21,8 +21,8 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    public IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
-        cache.Values.ToAsyncEnumerable();
+    public async Task<IEnumerable<DeviceStatistic>> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
+        await Task.FromResult(cache.Values);
 
     /// <summary>
     /// Получить статистику устройства.

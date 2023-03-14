@@ -1,5 +1,6 @@
 using System;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
+using Dapper;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -8,9 +9,9 @@ using Npgsql;
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
 /// <summary>
-/// Методы расширения startup.
+/// Методы расширения IServiceCollection.
 /// </summary>
-public static class StartupSetup
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Добавление dapper postgresql провайдера данных.
@@ -30,6 +31,8 @@ public static class StartupSetup
     /// <param name="connectionString">Строка подключения к БД.</param>
     public static void AddDataAccessDapperPostgresMigrator(this IServiceCollection services, string connectionString)
     {
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
+
         var loggerProvider = services.BuildServiceProvider().GetRequiredService<ILoggerProvider>();
 
         services.AddFluentMigratorCore()
@@ -37,7 +40,7 @@ public static class StartupSetup
                 .AddPostgres()
                 .WithGlobalConnectionString(connectionString)
                 .ConfigureGlobalProcessorOptions(o => o.ProviderSwitches = "Force Quote=false")
-                .ScanIn(typeof(StartupSetup).Assembly).For.Migrations())
+                .ScanIn(typeof(ApplicationBuilderExtensions).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddProvider(loggerProvider));
     }
 

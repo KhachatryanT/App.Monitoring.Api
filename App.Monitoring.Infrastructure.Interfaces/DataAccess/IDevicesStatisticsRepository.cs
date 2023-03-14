@@ -16,7 +16,7 @@ public interface IDevicesStatisticsRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<DeviceStatistic>> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Получить статистику устройства.

@@ -1,11 +1,10 @@
-using App.Monitoring.DataAccess.Dapper.Postgresql.Entities;
 using FluentMigrator;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql.Migrations;
 
 /// <summary>
-/// Инициализация таблиц <see cref="DeviceStatisticEntity"/>.
+/// Инициализация таблицы Device_Statistics.
 /// </summary>
 [Migration(130320231800)]
 public sealed class M130320231800_Initial : Migration
@@ -13,12 +12,12 @@ public sealed class M130320231800_Initial : Migration
     /// <inheritdoc />
     public override void Up()
     {
-        Create.Table(nameof(DeviceStatisticEntity))
-            .WithColumn(nameof(DeviceStatisticEntity.Id)).AsGuid().PrimaryKey()
-            .WithColumn(nameof(DeviceStatisticEntity.DeviceType)).AsString(20).Nullable()
-            .WithColumn(nameof(DeviceStatisticEntity.UserName)).AsString(100).Nullable()
-            .WithColumn(nameof(DeviceStatisticEntity.ClientVersion)).AsString(20).Nullable()
-            .WithColumn(nameof(DeviceStatisticEntity.StatisticDate)).AsDateTime()
+        Create.Table("Device_Statistics")
+            .WithColumn("Id").AsGuid().PrimaryKey()
+            .WithColumn("Device_Type").AsString(20).Nullable()
+            .WithColumn("User_Name").AsString(100).Nullable()
+            .WithColumn("Client_Version").AsString(20).Nullable()
+            .WithColumn("Statistic_Date").AsDateTime()
             .WithColumn("Created").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
             .WithColumn("Modified").AsDateTime().Nullable();
 
@@ -29,15 +28,15 @@ public sealed class M130320231800_Initial : Migration
     END;
 $set_modified_date$ LANGUAGE plpgsql;");
 
-        Execute.Sql(@$"CREATE TRIGGER set_modified_date BEFORE UPDATE ON {nameof(DeviceStatisticEntity)}
-    FOR EACH ROW EXECUTE PROCEDURE set_modified_date();");
+        Execute.Sql(@$"CREATE TRIGGER set_modified_date BEFORE UPDATE ON Device_Statistics
+FOR EACH ROW EXECUTE PROCEDURE set_modified_date();");
     }
 
     /// <inheritdoc />
     public override void Down()
     {
-        Execute.Sql(@$"DROP TRIGGER IF EXISTS set_modified_date ON {nameof(DeviceStatisticEntity)};");
-        Execute.Sql(@$"DROP FUNCTION IF EXISTS set_modified_date;");
-        Delete.Table(nameof(DeviceStatisticEntity));
+        Execute.Sql(@"DROP TRIGGER IF EXISTS set_modified_date ON Device_Statistics;");
+        Execute.Sql(@"DROP FUNCTION IF EXISTS set_modified_date;");
+        Delete.Table("Device_Statistics");
     }
 }
