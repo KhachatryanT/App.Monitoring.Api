@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.Json.Serialization;
-using App.Monitoring.DataAccess.InMemory;
+using App.Monitoring.DataAccess.Dapper.Postgresql;
 using App.Monitoring.UseCases;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +33,6 @@ try
     });
 
     builder.Services.AddDeviceStatisticsUseCases();
-    builder.Services.AddDataAccessInMemory();
 
     builder.Services.AddCors(o =>
     {
@@ -50,7 +49,19 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
+    var mobileConfiguration = new ConfigurationBuilder()
+        .AddEnvironmentVariables("Mobile_")
+        .Build();
+
+    var postgresConnection = mobileConfiguration.GetConnectionString("postgres")
+        ?? builder.Configuration.GetConnectionString("postgres")
+        ?? throw new ArgumentNullException("Не найдена строка подключения к БД");
+
+    builder.Services.AddDataAccessDapperPostgres(postgresConnection);
+    builder.Services.AddDataAccessDapperPostgresMigrator(postgresConnection);
+
     var app = builder.Build();
+    app.Services.MigrateDatabase();
 
     if (app.Environment.IsDevelopment())
     {

@@ -32,7 +32,7 @@ internal sealed class CreateOrUpdateDeviceStatisticCommandHandler : ICommandHand
         }
         else
         {
-            await _repository.UpdateDeviceStatisticAsync(deviceStatistic, existingDeviceStatistic, cancellationToken);
+            await _repository.UpdateDeviceStatisticAsync(deviceStatistic, cancellationToken);
         }
     }
 }

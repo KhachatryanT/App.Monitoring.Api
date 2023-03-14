@@ -4,7 +4,7 @@ using App.Monitoring.Entities.Enums;
 namespace App.Monitoring.Entities.Models;
 
 /// <summary>
-/// Устройство.
+/// Статистика устройства.
 /// </summary>
 /// <param name="Id">Идентификатор устройства.</param>
 /// <param name="DeviceType">Тип устройства.</param>
