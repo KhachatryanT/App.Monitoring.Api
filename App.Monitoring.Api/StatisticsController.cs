@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceStatistics;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,16 +30,9 @@ public class StatisticsController : ControllerBase
     public async IAsyncEnumerable<DeviceStatisticResult> GetDevicesStatistics()
     {
         var devicesStatistics = _sender.CreateStream(new GetDeviceStatisticsQuery());
-        await foreach (var deviceStatistic in devicesStatistics)
+        await foreach (var devicesStatistic in devicesStatistics)
         {
-            yield return new DeviceStatisticResult
-            {
-                Id = deviceStatistic.Id,
-                UserName = deviceStatistic.UserName,
-                StatisticDate = deviceStatistic.StatisticDate,
-                ClientVersion = deviceStatistic.ClientVersion,
-                DeviceType = deviceStatistic.DeviceType
-            };
+            yield return devicesStatistic.Adapt<DeviceStatisticResult>();
         }
     }
 }

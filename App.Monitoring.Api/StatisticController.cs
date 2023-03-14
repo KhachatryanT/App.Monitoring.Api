@@ -33,12 +33,12 @@ public class StatisticController : ControllerBase
     public async Task<IActionResult> UpdateDeviceStatistic(Guid id, [Required] CreateDeviceStatisticRequest deviceStatistic)
     {
         await _sender.Send(new CreateOrUpdateDeviceStatisticCommand
-        {
-            Id = id,
-            DeviceType = deviceStatistic.DeviceType,
-            UserName = deviceStatistic.UserName,
-            ClientVersion = deviceStatistic.ClientVersion,
-        });
+        (
+            id,
+            deviceStatistic.DeviceType,
+            deviceStatistic.UserName,
+            deviceStatistic.ClientVersion
+        ));
         return Ok();
     }
 }
