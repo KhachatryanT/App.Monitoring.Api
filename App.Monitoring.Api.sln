@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.UseCases", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Api", "App.Monitoring.Api\App.Monitoring.Api.csproj", "{624C134B-A5BB-4140-AB98-74BF8F7AB32E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.DataAccess.Dapper.Postgresql", "App.Monitoring.DataAccess.Dapper.Postgresql\App.Monitoring.DataAccess.Dapper.Postgresql.csproj", "{DE8C90AB-725B-424D-AC5F-0F16376C576E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE8C90AB-725B-424D-AC5F-0F16376C576E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE8C90AB-725B-424D-AC5F-0F16376C576E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE8C90AB-725B-424D-AC5F-0F16376C576E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE8C90AB-725B-424D-AC5F-0F16376C576E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F0A6CA59-6294-4D49-B4E5-B87B294B29EC} = {BE0D8CC6-4F00-4EDA-BCC1-97BFB4A4D81B}
@@ -58,5 +64,6 @@ Global
 		{10224CB4-2265-41F1-A6FF-65C8FF7E245B} = {BE0D8CC6-4F00-4EDA-BCC1-97BFB4A4D81B}
 		{57236687-ACC1-482B-AEF0-53E49A213677} = {3FC4079C-6487-4733-A2EE-29BB3A98132C}
 		{624C134B-A5BB-4140-AB98-74BF8F7AB32E} = {5F63F988-05EE-4E3D-9E23-28F1F9F178B0}
+		{DE8C90AB-725B-424D-AC5F-0F16376C576E} = {BE0D8CC6-4F00-4EDA-BCC1-97BFB4A4D81B}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.DeviceStatistics.Queries.GetDeviceStatistics;
 using Mapster;
@@ -27,12 +28,9 @@ public class StatisticsController : ControllerBase
     /// </summary>
     /// <returns>Статистики устройств.</returns>
     [HttpGet]
-    public async IAsyncEnumerable<DeviceStatisticResult> GetDevicesStatistics()
+    public async Task<IEnumerable<DeviceStatisticResult>> GetDevicesStatistics()
     {
-        var devicesStatistics = _sender.CreateStream(new GetDeviceStatisticsQuery());
-        await foreach (var devicesStatistic in devicesStatistics)
-        {
-            yield return devicesStatistic.Adapt<DeviceStatisticResult>();
-        }
+        var devicesStatistics = await _sender.Send(new GetDeviceStatisticsQuery());
+        return devicesStatistics.Adapt<DeviceStatisticResult[]>();
     }
 }

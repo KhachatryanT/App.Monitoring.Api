@@ -16,7 +16,7 @@ public interface IDevicesStatisticsRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<DeviceStatistic>> GetDevicesStatisticsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Получить статистику устройства.
@@ -37,9 +37,8 @@ public interface IDevicesStatisticsRepository
     /// <summary>
     /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="newDeviceStatistic">Новая статистика устройства.</param>
-    /// <param name="oldDeviceStatistic">Существующая статистика устройства. Необходима для сверки с хранимыми данными.</param>
+    /// <param name="deviceStatistic">Новая статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task UpdateDeviceStatisticAsync(DeviceStatistic newDeviceStatistic, DeviceStatistic oldDeviceStatistic, CancellationToken cancellationToken = default);
+    Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default);
 }

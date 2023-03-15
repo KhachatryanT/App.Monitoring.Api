@@ -21,8 +21,8 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    public IAsyncEnumerable<DeviceStatistic> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
-        cache.Values.ToAsyncEnumerable();
+    public async Task<IEnumerable<DeviceStatistic>> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
+        await Task.FromResult(cache.Values);
 
     /// <summary>
     /// Получить статистику устройства.
@@ -56,18 +56,21 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// <summary>
     /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="newDeviceStatistic">Новая статистика устройства.</param>
-    /// <param name="oldDeviceStatistic">Существующая статистика устройства. Необходима для сверки с хранимыми данными.</param>
+    /// <param name="deviceStatistic">Новая статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     /// <exception cref="ArgumentException">Невозможно обновить статистику устройства. Возможно статистики с указанным ключом не существует.</exception>
-    public Task UpdateDeviceStatisticAsync(DeviceStatistic newDeviceStatistic, DeviceStatistic oldDeviceStatistic, CancellationToken cancellationToken = default)
+    public async Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
     {
-        if (!cache.TryUpdate(newDeviceStatistic.Id, newDeviceStatistic, oldDeviceStatistic))
+        var existingStatistic = await GetDeviceStatisticOrDefaultAsync(deviceStatistic.Id, cancellationToken);
+        if (existingStatistic is null)
         {
-            throw new ArgumentException("Не удалось обновить запись", nameof(newDeviceStatistic));
+            throw new ArgumentException("Не удалось найти запись для обновления", nameof(deviceStatistic));
         }
 
-        return Task.CompletedTask;
+        if (!cache.TryUpdate(deviceStatistic.Id, deviceStatistic, existingStatistic))
+        {
+            throw new ArgumentException("Не удалось обновить запись", nameof(deviceStatistic));
+        }
     }
 }

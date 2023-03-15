@@ -6,7 +6,7 @@ namespace App.Monitoring.DataAccess.InMemory;
 /// <summary>
 /// Методы расширения startup.
 /// </summary>
-public static class StartupSetup
+public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Добавление in-memory data access.

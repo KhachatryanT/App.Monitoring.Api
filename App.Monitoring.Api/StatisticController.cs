@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.DeviceStatistics.Commands.CreateOrUpdateDeviceStatistic;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Monitoring.Api;
@@ -30,6 +31,7 @@ public class StatisticController : ControllerBase
     /// <param name="deviceStatistic">Статистика устройства для добавления/обновления.</param>
     /// <returns>Ok.</returns>
     [HttpPost]
+    [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateDeviceStatistic(Guid id, [Required] CreateDeviceStatisticRequest deviceStatistic)
     {
         await _sender.Send(new CreateOrUpdateDeviceStatisticCommand
