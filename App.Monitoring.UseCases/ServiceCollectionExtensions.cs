@@ -9,10 +9,10 @@ namespace App.Monitoring.UseCases;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Добавление use cases по работе со статистикой.
+    /// Добавление use cases по работе с узлами.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
-    public static void AddDeviceStatisticsUseCases(this IServiceCollection services)
+    public static void AddNodesUseCases(this IServiceCollection services)
     {
         var assembly = typeof(ServiceCollectionExtensions).Assembly;
         services.AddMediatR(c => c.RegisterServicesFromAssembly(assembly));

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.Dapper.Postgresql;
+using App.Monitoring.Infrastructure.Implementation.Converters;
 using App.Monitoring.UseCases;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +25,11 @@ try
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddControllers()
-        .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+        .AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            o.JsonSerializerOptions.Converters.Add(new DateTimeOffsetFormatConverter("yyyy-MM-ddTHH:mm:ss.fffZ"));
+        });
     builder.Services.AddSwaggerDocument(s =>
     {
         s.PostProcess = doc =>
@@ -33,7 +38,7 @@ try
         };
     });
 
-    builder.Services.AddDeviceStatisticsUseCases();
+    builder.Services.AddNodesUseCases();
 
     builder.Services.AddCors(o =>
     {

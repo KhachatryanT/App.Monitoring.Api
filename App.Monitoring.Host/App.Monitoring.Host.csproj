@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\App.Monitoring.Api\App.Monitoring.Api.csproj" />
     <ProjectReference Include="..\App.Monitoring.DataAccess.Dapper.Postgresql\App.Monitoring.DataAccess.Dapper.Postgresql.csproj" />
+    <ProjectReference Include="..\App.Monitoring.Infrastructure.Implementation\App.Monitoring.Infrastructure.Implementation.csproj" />
   </ItemGroup>
 
 </Project>

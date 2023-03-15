@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using App.Monitoring.Entities.Entities;
 using App.Monitoring.Entities.Enums;
-using App.Monitoring.Entities.Models;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +16,14 @@ namespace App.Monitoring.Api;
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly IDevicesStatisticsRepository _repository;
+    private readonly INodesRepository _repository;
 
 
     /// <summary>
     /// <see cref="TestController"/>.
     /// </summary>
-    /// <param name="repository">Репозиторий статистики устройств.</param>
-    public TestController(IDevicesStatisticsRepository repository) => _repository = repository;
+    /// <param name="repository">Репозиторий узлов.</param>
+    public TestController(INodesRepository repository) => _repository = repository;
 
     /// <summary>
     /// Наполнить БД случайными данными.
@@ -35,12 +35,12 @@ public class TestController : ControllerBase
     {
         for (var i = 0; i < itemsCount; i++)
         {
-            var deviceStatistic = new DeviceStatistic(Guid.NewGuid(),
+            var node = new NodeEntity(Guid.NewGuid(),
                 (DeviceType)new Random(Environment.TickCount).Next(0, 3),
                 $"User name {i}",
                 $"ClientVersion {i}",
                 DateTimeOffset.UtcNow);
-            await _repository.CreateDeviceStatisticAsync(deviceStatistic);
+            await _repository.InsertAsync(node);
             await Task.Delay(1);
         }
 

@@ -13,5 +13,5 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     public static void AddDataAccessInMemory(this IServiceCollection services) =>
-        services.AddScoped<IDevicesStatisticsRepository, DevicesStatisticsRepository>();
+        services.AddScoped<INodesRepository, NodesRepository>();
 }

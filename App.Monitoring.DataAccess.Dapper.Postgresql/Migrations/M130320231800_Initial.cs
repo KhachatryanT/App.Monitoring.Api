@@ -28,7 +28,7 @@ public sealed class M130320231800_Initial : Migration
     END;
 $set_modified_date$ LANGUAGE plpgsql;");
 
-        Execute.Sql(@$"CREATE TRIGGER set_modified_date BEFORE UPDATE ON Device_Statistics
+        Execute.Sql(@$"CREATE TRIGGER set_modified_date BEFORE UPDATE ON device_statistics
 FOR EACH ROW EXECUTE PROCEDURE set_modified_date();");
     }
 

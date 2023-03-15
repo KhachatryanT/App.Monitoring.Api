@@ -21,7 +21,8 @@ public static class ServiceCollectionExtensions
     public static void AddDataAccessDapperPostgres(this IServiceCollection services, string connectionString)
     {
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
-        services.AddScoped<IDevicesStatisticsRepository, DevicesStatisticsRepository>();
+        services.AddScoped<INodesRepository, NodesRepository>();
+        services.AddScoped<INodesEventsRepository, NodesEventsRepository>();
     }
 
     /// <summary>

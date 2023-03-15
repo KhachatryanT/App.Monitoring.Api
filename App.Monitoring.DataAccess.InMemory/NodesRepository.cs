@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using App.Monitoring.Entities.Models;
+using App.Monitoring.Entities.Entities;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 
 namespace App.Monitoring.DataAccess.InMemory;
@@ -12,16 +11,16 @@ namespace App.Monitoring.DataAccess.InMemory;
 /// <summary>
 /// Репозиторий статистики устройств.
 /// </summary>
-internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
+internal sealed class NodesRepository : INodesRepository
 {
-    private static readonly ConcurrentDictionary<Guid, DeviceStatistic> cache = new();
+    private static readonly ConcurrentDictionary<Guid, NodeEntity> cache = new();
 
     /// <summary>
     /// Получить статистики устройств.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистики устройств.</returns>
-    public async Task<IEnumerable<DeviceStatistic>> GetDevicesStatisticsAsync(CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<NodeEntity>> GetAsync(CancellationToken cancellationToken) =>
         await Task.FromResult(cache.Values);
 
     /// <summary>
@@ -30,7 +29,7 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// <param name="id">Идентификатор устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Статистика устройства.</returns>
-    public Task<DeviceStatistic?> GetDeviceStatisticOrDefaultAsync(Guid id, CancellationToken cancellationToken)
+    public Task<NodeEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         cache.TryGetValue(id, out var deviceStatistic);
         return Task.FromResult(deviceStatistic);
@@ -39,15 +38,15 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// <summary>
     /// Создать новую статистику устройства.
     /// </summary>
-    /// <param name="deviceStatistic">Статистика устройства.</param>
+    /// <param name="nodeEntity">Статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     /// <exception cref="ArgumentException">Невозможно добавить статистику устройства. Статистика уже существует.</exception>
-    public Task CreateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
+    public Task InsertAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
-        if (!cache.TryAdd(deviceStatistic.Id, deviceStatistic))
+        if (!cache.TryAdd(nodeEntity.Id, nodeEntity))
         {
-            throw new ArgumentException("Не удалось добавить запись", nameof(deviceStatistic));
+            throw new ArgumentException("Не удалось добавить запись", nameof(nodeEntity));
         }
 
         return Task.CompletedTask;
@@ -56,21 +55,21 @@ internal sealed class DevicesStatisticsRepository : IDevicesStatisticsRepository
     /// <summary>
     /// Обновить статистику устройства.
     /// </summary>
-    /// <param name="deviceStatistic">Новая статистика устройства.</param>
+    /// <param name="nodeEntity">Новая статистика устройства.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     /// <exception cref="ArgumentException">Невозможно обновить статистику устройства. Возможно статистики с указанным ключом не существует.</exception>
-    public async Task UpdateDeviceStatisticAsync(DeviceStatistic deviceStatistic, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
-        var existingStatistic = await GetDeviceStatisticOrDefaultAsync(deviceStatistic.Id, cancellationToken);
+        var existingStatistic = await GetAsync(nodeEntity.Id, cancellationToken);
         if (existingStatistic is null)
         {
-            throw new ArgumentException("Не удалось найти запись для обновления", nameof(deviceStatistic));
+            throw new ArgumentException("Не удалось найти запись для обновления", nameof(nodeEntity));
         }
 
-        if (!cache.TryUpdate(deviceStatistic.Id, deviceStatistic, existingStatistic))
+        if (!cache.TryUpdate(nodeEntity.Id, nodeEntity, existingStatistic))
         {
-            throw new ArgumentException("Не удалось обновить запись", nameof(deviceStatistic));
+            throw new ArgumentException("Не удалось обновить запись", nameof(nodeEntity));
         }
     }
 }
