@@ -20,6 +20,7 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Загрузка приложения");
 try
 {
+    builder.Configuration.AddEnvironmentVariables(prefix: "Mobile_");
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddControllers()
@@ -49,13 +50,9 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
-    var mobileConfiguration = new ConfigurationBuilder()
-        .AddEnvironmentVariables("Mobile_")
-        .Build();
 
-    var postgresConnection = mobileConfiguration.GetConnectionString("postgres")
-        ?? builder.Configuration.GetConnectionString("postgres")
-        ?? throw new ArgumentNullException("Не найдена строка подключения к БД");
+    var postgresConnection = builder.Configuration.GetConnectionString("postgres")
+        ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");
 
     builder.Services.AddDataAccessDapperPostgres(postgresConnection);
     builder.Services.AddDataAccessDapperPostgresMigrator(postgresConnection);
