@@ -16,9 +16,7 @@ public sealed record DeviceStatistic(Guid Id, DeviceType DeviceType, string? Use
     /// <summary>
     /// Инициализация типа <see cref="DeviceStatistic"/>.
     /// </summary>
-    /// <remarks>
-    /// Необходим для десериализаторов.
-    /// </remarks>
+    [Obsolete("Вызывается десериализаторами. Используйте конструктор со всеми полями. ",true)]
     public DeviceStatistic()
         : this(default, default, default, default, default)
     {

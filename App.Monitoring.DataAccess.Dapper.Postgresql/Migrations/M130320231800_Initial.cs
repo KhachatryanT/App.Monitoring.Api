@@ -12,18 +12,18 @@ public sealed class M130320231800_Initial : Migration
     /// <inheritdoc />
     public override void Up()
     {
-        Create.Table("Device_Statistics")
-            .WithColumn("Id").AsGuid().PrimaryKey()
-            .WithColumn("Device_Type").AsString(20).Nullable()
-            .WithColumn("User_Name").AsString(100).Nullable()
-            .WithColumn("Client_Version").AsString(20).Nullable()
-            .WithColumn("Statistic_Date").AsDateTime()
-            .WithColumn("Created").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
-            .WithColumn("Modified").AsDateTime().Nullable();
+        Create.Table("device_statistics")
+            .WithColumn("id").AsGuid().PrimaryKey()
+            .WithColumn("device_type").AsString(20).Nullable()
+            .WithColumn("user_name").AsString(100).Nullable()
+            .WithColumn("client_version").AsString(20).Nullable()
+            .WithColumn("statistic_date").AsDateTime()
+            .WithColumn("created").AsDateTime().WithDefault(SystemMethods.CurrentUTCDateTime)
+            .WithColumn("modified").AsDateTime().Nullable();
 
         Execute.Sql(@"CREATE FUNCTION set_modified_date() RETURNS trigger AS $set_modified_date$
     BEGIN
-        NEW.Modified := NOW();
+        NEW.modified := NOW();
         RETURN NEW;
     END;
 $set_modified_date$ LANGUAGE plpgsql;");
@@ -37,6 +37,6 @@ FOR EACH ROW EXECUTE PROCEDURE set_modified_date();");
     {
         Execute.Sql(@"DROP TRIGGER IF EXISTS set_modified_date ON Device_Statistics;");
         Execute.Sql(@"DROP FUNCTION IF EXISTS set_modified_date;");
-        Delete.Table("Device_Statistics");
+        Delete.Table("device_statistics");
     }
 }
