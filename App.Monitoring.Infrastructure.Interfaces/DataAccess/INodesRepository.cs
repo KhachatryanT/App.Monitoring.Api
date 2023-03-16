@@ -32,7 +32,7 @@ public interface INodesRepository
     /// <param name="nodeEntity">Узел.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task InsertAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default);
+    Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Обновить узел.

@@ -42,7 +42,7 @@ internal sealed class NodesRepository : INodesRepository
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     /// <exception cref="ArgumentException">Невозможно добавить статистику устройства. Статистика уже существует.</exception>
-    public Task InsertAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
+    public Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
         if (!cache.TryAdd(nodeEntity.Id, nodeEntity))
         {

@@ -40,7 +40,7 @@ public class TestController : ControllerBase
                 $"User name {i}",
                 $"ClientVersion {i}",
                 DateTimeOffset.UtcNow);
-            await _repository.InsertAsync(node);
+            await _repository.CreateAsync(node);
             await Task.Delay(1);
         }
 

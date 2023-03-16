@@ -28,7 +28,7 @@ internal sealed class CreateOrUpdateNodeCommandHandler : ICommandHandler<CreateO
 
         if (existingNode is null)
         {
-            await _nodesRepository.InsertAsync(node, cancellationToken);
+            await _nodesRepository.CreateAsync(node, cancellationToken);
         }
         else
         {

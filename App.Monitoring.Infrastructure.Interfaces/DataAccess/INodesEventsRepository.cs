@@ -16,14 +16,14 @@ public interface INodesEventsRepository
     /// </summary>
     /// <param name="nodeId">Идентификатор узла.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>События</returns>
+    /// <returns>События.</returns>
     Task<IEnumerable<NodeEventEntity>> GetByNodeIdAsync(Guid nodeId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Создать события.
     /// </summary>
-    /// <param name="events"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="events">События.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Task.</returns>
     Task CreateAsync(IEnumerable<NodeEventEntity> events, CancellationToken cancellationToken);
 }

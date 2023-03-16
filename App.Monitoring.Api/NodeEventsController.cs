@@ -34,7 +34,7 @@ public class NodeEventsController : ControllerBase
     /// <param name="nodeId">Идентификатор узла.</param>
     /// <returns>Ok.</returns>
     [HttpGet]
-    public async Task<GetNodeEventsResult> CreateNodeEvents(Guid nodeId)
+    public async Task<GetNodeEventsResult> GetNodeEvents(Guid nodeId)
     {
         var events = await _sender.Send(new GetNodeEventsQuery(nodeId));
         return new GetNodeEventsResult(nodeId, events.Adapt<NodeEvent[]>());

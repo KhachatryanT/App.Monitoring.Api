@@ -34,7 +34,7 @@ internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNod
         if (node is null)
         {
             node = new NodeEntity(request.NodeId, DeviceType.Unknown, default, default, default);
-            await _nodesRepository.InsertAsync(node, cancellationToken);
+            await _nodesRepository.CreateAsync(node, cancellationToken);
         }
 
         var dto = request.Events.Select(x => new NodeEventEntity(request.NodeId, x.Name, x.Date));

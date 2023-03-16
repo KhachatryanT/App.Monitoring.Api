@@ -37,7 +37,7 @@ internal sealed class NodesRepository : INodesRepository
     }
 
     /// <inheritdoc />
-    public async Task InsertAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(@$"INSERT INTO nodes (id, user_name, device_type, statistic_date, client_version) VALUES
                                         (@{nameof(nodeEntity.Id)},
