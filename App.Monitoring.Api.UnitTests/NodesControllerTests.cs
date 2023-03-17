@@ -10,7 +10,7 @@ using MediatR;
 using Moq;
 using Xunit;
 
-namespace App.Monitoring.Api.Tests.Unit;
+namespace App.Monitoring.Api.UnitTests;
 
 /// <summary>
 /// Тесты контроллера <see cref="NodesController"/>.
