@@ -12,8 +12,10 @@ public sealed record NodeEvent(string? Name, DateTimeOffset? Date)
     /// <summary>
     /// Инициализация типа.
     /// </summary>
-    [Obsolete("Вызывается десериализаторами. Используйте конструктор со всеми полями.", true)]
-    public NodeEvent()
+    /// <remarks>
+    /// Вызывается десериализаторами. Используйте конструктор со всеми полями.
+    /// </remarks>
+    private NodeEvent()
         : this(default, default)
     {
     }

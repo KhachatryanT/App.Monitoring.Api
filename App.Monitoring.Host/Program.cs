@@ -55,7 +55,6 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
-
     var postgresConnection = builder.Configuration.GetConnectionString("postgres")
         ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");
 
@@ -85,4 +84,12 @@ catch (Exception e)
 finally
 {
     Log.CloseAndFlush();
+}
+
+/// <summary>
+/// Опредедение публичного модификатора доступа.
+/// Необходимо для интеграционных тестов.
+/// </summary>
+public partial class Program
+{
 }

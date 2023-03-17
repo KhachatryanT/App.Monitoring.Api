@@ -23,6 +23,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
         services.AddScoped<INodesRepository, NodesRepository>();
         services.AddScoped<INodesEventsRepository, NodesEventsRepository>();
+        SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
+        SqlMapper.AddTypeHandler(new DateTimeOffsetToUtcHandler());
     }
 
     /// <summary>
@@ -43,16 +45,5 @@ public static class ServiceCollectionExtensions
                 .ConfigureGlobalProcessorOptions(o => o.ProviderSwitches = "Force Quote=false")
                 .ScanIn(typeof(ApplicationBuilderExtensions).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddProvider(loggerProvider));
-    }
-
-    /// <summary>
-    /// Миграции БД.
-    /// </summary>
-    /// <param name="services"><see cref="IServiceProvider"/>.</param>
-    public static void MigrateDatabase(this IServiceProvider services)
-    {
-        using var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-        runner.MigrateUp();
     }
 }
