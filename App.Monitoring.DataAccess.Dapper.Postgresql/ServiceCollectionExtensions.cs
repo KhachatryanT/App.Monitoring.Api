@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <param name="connectionString">Строка подключения к БД.</param>
-    public static void AddDataAccessDapperPostgres(this IServiceCollection services, string connectionString)
+    public static void AddDataAccessDapperPostgresql(this IServiceCollection services, string connectionString)
     {
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
         services.AddScoped<INodesRepository, NodesRepository>();
@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <param name="connectionString">Строка подключения к БД.</param>
-    public static void AddDataAccessDapperPostgresMigrator(this IServiceCollection services, string connectionString)
+    public static void AddDataAccessDapperPostgresqlMigrator(this IServiceCollection services, string connectionString)
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 

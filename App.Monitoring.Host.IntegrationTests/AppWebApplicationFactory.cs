@@ -24,7 +24,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.IntegrationTests.json")
+            .AddJsonFile("appsettings.integrationTests.json")
             .Build();
 
         EnsureTruncatedDatabase(configuration);
@@ -35,7 +35,7 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>
 
     private static void EnsureTruncatedDatabase(IConfiguration configuration)
     {
-        using var cnn = new NpgsqlConnection(configuration.GetConnectionString("postgres"));
+        using var cnn = new NpgsqlConnection(configuration.GetConnectionString("postgresql"));
         cnn.Open();
         TruncateDatabase(cnn);
         cnn.Close();

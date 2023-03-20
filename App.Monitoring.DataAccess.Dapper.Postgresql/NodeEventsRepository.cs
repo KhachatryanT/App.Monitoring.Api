@@ -17,7 +17,7 @@ internal sealed class NodeEventsRepository : INodeEventsRepository
     /// <summary>
     /// Инициализация.
     /// </summary>
-    /// <param name="connection">Подключение к postgres.</param>
+    /// <param name="connection">Подключение к postgresql.</param>
     public NodeEventsRepository(NpgsqlConnection connection) => _connection = connection;
 
     /// <inheritdoc/>

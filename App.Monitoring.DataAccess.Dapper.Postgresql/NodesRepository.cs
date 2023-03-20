@@ -17,7 +17,7 @@ internal sealed class NodesRepository : INodesRepository
     /// <summary>
     /// Инициализация.
     /// </summary>
-    /// <param name="connection">Подключение к postgres.</param>
+    /// <param name="connection">Подключение к postgresql.</param>
     public NodesRepository(NpgsqlConnection connection) => _connection = connection;
 
     /// <inheritdoc/>
