@@ -8,4 +8,4 @@ namespace App.Monitoring.UseCases.Handlers.NodesEvents.Queries.GetNodeEvents;
 /// Модель запроса получения событий узла.
 /// </summary>
 /// <param name="NodeId">Идентификатор узла.</param>
-public sealed record GetNodeEventsQuery (Guid NodeId) : IQuery<IEnumerable<NodeEventEntity>>;
+public sealed record GetNodeEventsQuery(Guid NodeId) : IQuery<IEnumerable<NodeEventEntity>>;

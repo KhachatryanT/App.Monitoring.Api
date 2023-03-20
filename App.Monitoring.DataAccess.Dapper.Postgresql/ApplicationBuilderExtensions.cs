@@ -1,11 +1,6 @@
-using System;
-using App.Monitoring.Infrastructure.Interfaces.DataAccess;
-using Dapper;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 

@@ -7,6 +7,6 @@ namespace App.Monitoring.UseCases;
 /// </summary>
 /// <typeparam name="TCommand">Тип объекта запроса.</typeparam>
 internal interface ICommandHandler<in TCommand> : IRequestHandler<TCommand>
-	where TCommand : ICommand
+    where TCommand : ICommand
 {
 }

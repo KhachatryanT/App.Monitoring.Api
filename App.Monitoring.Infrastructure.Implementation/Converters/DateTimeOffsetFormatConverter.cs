@@ -18,11 +18,11 @@ public sealed class DateTimeOffsetFormatConverter : JsonConverter<DateTimeOffset
     /// <param name="format">Формат даты.</param>
     public DateTimeOffsetFormatConverter(string format) => _format = format;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
         DateTimeOffset.Parse(reader.GetString() ?? string.Empty);
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value.ToString(
             _format, CultureInfo.InvariantCulture));

@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-      <TargetFramework>net7.0</TargetFramework>
-      <Nullable>enable</Nullable>
-      <GenerateDocumentationFile>true</GenerateDocumentationFile>
-      <CodeAnalysisRuleSet>..\app.ruleset</CodeAnalysisRuleSet>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CodeAnalysisRuleSet>..\app.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -23,8 +23,8 @@
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\App.Monitoring.Infrastructure.Interfaces\App.Monitoring.Infrastructure.Interfaces.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\App.Monitoring.Infrastructure.Interfaces\App.Monitoring.Infrastructure.Interfaces.csproj" />
+  </ItemGroup>
 
 </Project>

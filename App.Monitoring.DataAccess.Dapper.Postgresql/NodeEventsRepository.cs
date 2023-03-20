@@ -9,8 +9,8 @@ using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
-/// <inheritdoc />
-internal sealed class NodesEventsRepository : INodesEventsRepository
+/// <inheritdoc/>
+internal sealed class NodeEventsRepository : INodeEventsRepository
 {
     private readonly NpgsqlConnection _connection;
 
@@ -18,26 +18,26 @@ internal sealed class NodesEventsRepository : INodesEventsRepository
     /// Инициализация.
     /// </summary>
     /// <param name="connection">Подключение к postgres.</param>
-    public NodesEventsRepository(NpgsqlConnection connection) => _connection = connection;
+    public NodeEventsRepository(NpgsqlConnection connection) => _connection = connection;
 
-    /// <inheritdoc />
-    public async Task<IEnumerable<NodeEventEntity>> GetByNodeIdAsync(Guid nodeId, CancellationToken cancellationToken)
-    {
-        var command = new CommandDefinition(@$"SELECT * FROM node_events WHERE node_id = @{nameof(nodeId)}",
-            parameters: new { nodeId },
-            cancellationToken: cancellationToken);
-        return await _connection.QueryAsync<NodeEventEntity>(command);
-    }
-
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task CreateAsync(IEnumerable<NodeEventEntity> events, CancellationToken cancellationToken)
     {
         var command = new CommandDefinition(@$"INSERT INTO node_events (node_id, name, date) VALUES
                                          (@{nameof(NodeEventEntity.NodeId)},
                                          @{nameof(NodeEventEntity.Name)},
                                          @{nameof(NodeEventEntity.Date)})",
-            parameters: events,
+            events,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
+    }
+
+    /// <inheritdoc/>
+    public async Task<IEnumerable<NodeEventEntity>> GetByNodeIdAsync(Guid nodeId, CancellationToken cancellationToken)
+    {
+        var command = new CommandDefinition(@$"SELECT * FROM node_events WHERE node_id = @{nameof(nodeId)}",
+            new { nodeId },
+            cancellationToken: cancellationToken);
+        return await _connection.QueryAsync<NodeEventEntity>(command);
     }
 }

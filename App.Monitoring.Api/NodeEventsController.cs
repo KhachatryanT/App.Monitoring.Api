@@ -29,18 +29,6 @@ public class NodeEventsController : ControllerBase
     public NodeEventsController(ISender sender) => _sender = sender;
 
     /// <summary>
-    /// Получить события узла.
-    /// </summary>
-    /// <param name="nodeId">Идентификатор узла.</param>
-    /// <returns>Ok.</returns>
-    [HttpGet]
-    public async Task<GetNodeEventsResult> GetNodeEvents(Guid nodeId)
-    {
-        var events = await _sender.Send(new GetNodeEventsQuery(nodeId));
-        return new GetNodeEventsResult(nodeId, events.Adapt<NodeEvent[]>());
-    }
-
-    /// <summary>
     /// Добавить события узла.
     /// </summary>
     /// <param name="nodeId">Идентификатор узла.</param>
@@ -52,5 +40,17 @@ public class NodeEventsController : ControllerBase
     {
         await _sender.Send(new CreateNodeEventsCommand(nodeId, events.Adapt<NodeEventDto[]>()));
         return Ok();
+    }
+
+    /// <summary>
+    /// Получить события узла.
+    /// </summary>
+    /// <param name="nodeId">Идентификатор узла.</param>
+    /// <returns>Ok.</returns>
+    [HttpGet]
+    public async Task<GetNodeEventsResult> GetNodeEvents(Guid nodeId)
+    {
+        var events = await _sender.Send(new GetNodeEventsQuery(nodeId));
+        return new GetNodeEventsResult(nodeId, events.Adapt<NodeEvent[]>());
     }
 }

@@ -12,6 +12,14 @@ namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 public interface INodesRepository
 {
     /// <summary>
+    /// Создать узел.
+    /// </summary>
+    /// <param name="nodeEntity">Узел.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Task.</returns>
+    Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Получить все узлы.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
@@ -25,14 +33,6 @@ public interface INodesRepository
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Узел.</returns>
     Task<NodeEntity?> GetAsync(Guid id, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Создать узел.
-    /// </summary>
-    /// <param name="nodeEntity">Узел.</param>
-    /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Task.</returns>
-    Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Обновить узел.

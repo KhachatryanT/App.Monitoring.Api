@@ -21,7 +21,7 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Загрузка приложения");
 try
 {
-    builder.Configuration.AddEnvironmentVariables(prefix: "Mobile_");
+    builder.Configuration.AddEnvironmentVariables("Mobile_");
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddControllers()

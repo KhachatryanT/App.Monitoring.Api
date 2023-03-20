@@ -11,16 +11,15 @@ namespace App.Monitoring.UseCases.Handlers.NodesEvents.Queries.GetNodeEvents;
 /// </summary>
 internal sealed class GetNodeEventsQueryHandler : IQueryHandler<GetNodeEventsQuery, IEnumerable<NodeEventEntity>>
 {
-    private readonly INodesEventsRepository _nodesEventsRepository;
+    private readonly INodeEventsRepository _nodeEventsRepository;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
-    /// <param name="nodesEventsRepository">Репозиторий событий узлов.</param>
-    public GetNodeEventsQueryHandler(INodesEventsRepository nodesEventsRepository) => _nodesEventsRepository = nodesEventsRepository;
+    /// <param name="nodeEventsRepository">Репозиторий событий узлов.</param>
+    public GetNodeEventsQueryHandler(INodeEventsRepository nodeEventsRepository) => _nodeEventsRepository = nodeEventsRepository;
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<NodeEventEntity>> Handle(GetNodeEventsQuery request, CancellationToken cancellationToken)=>
-        await _nodesEventsRepository.GetByNodeIdAsync(request.NodeId, cancellationToken);
-
+    public async Task<IEnumerable<NodeEventEntity>> Handle(GetNodeEventsQuery request, CancellationToken cancellationToken) =>
+        await _nodeEventsRepository.GetByNodeIdAsync(request.NodeId, cancellationToken);
 }

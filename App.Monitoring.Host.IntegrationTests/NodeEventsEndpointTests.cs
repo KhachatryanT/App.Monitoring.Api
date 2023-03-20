@@ -22,7 +22,7 @@ public class NodeEventsEndpointTests
 {
     private readonly HttpClient _client;
     private readonly INodesRepository _nodesRepository;
-    private readonly INodesEventsRepository _nodeEventsRepository;
+    private readonly INodeEventsRepository _nodeEventsRepository;
 
     /// <summary>
     /// Конструктор.
@@ -32,7 +32,7 @@ public class NodeEventsEndpointTests
     {
         _client = factory.CreateClient();
         _nodesRepository = factory.Services.GetRequiredService<INodesRepository>();
-        _nodeEventsRepository = factory.Services.GetRequiredService<INodesEventsRepository>();
+        _nodeEventsRepository = factory.Services.GetRequiredService<INodeEventsRepository>();
     }
 
     /// <summary>

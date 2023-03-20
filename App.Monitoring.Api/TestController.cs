@@ -18,7 +18,6 @@ public class TestController : ControllerBase
 {
     private readonly INodesRepository _repository;
 
-
     /// <summary>
     /// <see cref="TestController"/>.
     /// </summary>
