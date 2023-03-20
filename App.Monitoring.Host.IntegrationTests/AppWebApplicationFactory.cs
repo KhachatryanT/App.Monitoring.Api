@@ -13,14 +13,14 @@ namespace App.Monitoring.Host.IntegrationTests;
 /// </summary>
 public class AppWebApplicationFactory : WebApplicationFactory<Program>
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override ValueTask DisposeAsync()
     {
         TruncateDatabase(Services.GetRequiredService<NpgsqlConnection>());
         return base.DisposeAsync();
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         var configuration = new ConfigurationBuilder()

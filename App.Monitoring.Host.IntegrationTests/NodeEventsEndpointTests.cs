@@ -21,8 +21,8 @@ namespace App.Monitoring.Host.IntegrationTests;
 public class NodeEventsEndpointTests
 {
     private readonly HttpClient _client;
-    private readonly INodesRepository _nodesRepository;
     private readonly INodeEventsRepository _nodeEventsRepository;
+    private readonly INodesRepository _nodesRepository;
 
     /// <summary>
     /// Конструктор.
@@ -33,6 +33,37 @@ public class NodeEventsEndpointTests
         _client = factory.CreateClient();
         _nodesRepository = factory.Services.GetRequiredService<INodesRepository>();
         _nodeEventsRepository = factory.Services.GetRequiredService<INodeEventsRepository>();
+    }
+
+    /// <summary>
+    /// Добавить события узла.
+    /// События должны успешно записаться в БД.
+    /// </summary>
+    /// <returns>Task.</returns>
+    [Fact]
+    public async Task CreateNodeEvents()
+    {
+        // Arrange
+        var nodeId = Guid.NewGuid();
+        var expectedNodeEvents = new[]
+        {
+            new NodeEvent("Вход", DateTimeOffset.UtcNow),
+            new NodeEvent("Поиск", DateTimeOffset.UtcNow),
+            new NodeEvent("Выход", DateTimeOffset.UtcNow),
+        };
+
+        // Act
+        var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}/events", expectedNodeEvents);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
+
+        var actualNodeEvents = await _nodeEventsRepository.GetByNodeIdAsync(nodeId, default);
+        Assert.Equal(expectedNodeEvents.Length, actualNodeEvents.Count());
+        Assert.All(expectedNodeEvents, expected =>
+            Assert.Contains(actualNodeEvents, actual =>
+                actual.Name == expected.Name &&
+                DateTimeOffsetComparer.Equals(actual.Date, expected.Date)));
     }
 
     /// <summary>
@@ -65,37 +96,6 @@ public class NodeEventsEndpointTests
         Assert.Equal(expectedNodeEvents.Length, actualResult.Events.Count());
         Assert.All(expectedNodeEvents, expected =>
             Assert.Contains(actualResult.Events, actual =>
-                actual.Name == expected.Name &&
-                DateTimeOffsetComparer.Equals(actual.Date, expected.Date)));
-    }
-
-    /// <summary>
-    /// Добавить события узла.
-    /// События должны успешно записаться в БД.
-    /// </summary>
-    /// <returns>Task.</returns>
-    [Fact]
-    public async Task CreateNodeEvents()
-    {
-        // Arrange
-        var nodeId = Guid.NewGuid();
-        var expectedNodeEvents = new[]
-        {
-            new NodeEvent("Вход", DateTimeOffset.UtcNow),
-            new NodeEvent("Поиск", DateTimeOffset.UtcNow),
-            new NodeEvent("Выход", DateTimeOffset.UtcNow),
-        };
-
-        // Act
-        var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}/events", expectedNodeEvents);
-
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
-
-        var actualNodeEvents = await _nodeEventsRepository.GetByNodeIdAsync(nodeId, default);
-        Assert.Equal(expectedNodeEvents.Length, actualNodeEvents.Count());
-        Assert.All(expectedNodeEvents, expected =>
-            Assert.Contains(actualNodeEvents, actual =>
                 actual.Name == expected.Name &&
                 DateTimeOffsetComparer.Equals(actual.Date, expected.Date)));
     }

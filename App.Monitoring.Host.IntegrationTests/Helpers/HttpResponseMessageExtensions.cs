@@ -14,7 +14,7 @@ internal static class HttpResponseMessageExtensions
     private static readonly JsonSerializerOptions serializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Converters = { new JsonStringEnumConverter() }
+        Converters = { new JsonStringEnumConverter() },
     };
 
     /// <summary>
