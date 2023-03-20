@@ -1,5 +1,8 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Monitoring.Api.Contracts;
+using App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateOrUpdateNode;
 using App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
 using AutoFixture.Xunit2;
 using MediatR;
@@ -31,5 +34,34 @@ public class NodesControllerTests
 
         // Assert
         senderMoq.Verify(x => x.Send(It.IsAny<GetNodesQuery>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Добавить или обновить узел.
+    /// Должен быть вызван MediatR с правильным типом.
+    /// </summary>
+    /// <param name="senderMoq">Moq MediatR.</param>
+    /// <param name="controller">Контроллер.</param>
+    /// <param name="nodeIdRequest">Идентификатор узла.</param>
+    /// <param name="nodeRequest">Узел.</param>
+    /// <returns>Task.</returns>
+    [Theory]
+    [AutoMoqData]
+    public async Task CreateOrUpdateNode_SenderMethodWasCalledWithCorrectTypeExpected(
+        [Frozen] Mock<ISender> senderMoq,
+        NodesController controller,
+        Guid nodeIdRequest,
+        CreateNodeRequest nodeRequest)
+    {
+        // Act
+        await controller.CreateOrUpdateNode(nodeIdRequest, nodeRequest);
+
+        // Assert
+        senderMoq.Verify(x => x.Send(It.Is<CreateOrUpdateNodeCommand>(cmd =>
+            cmd != default &&
+            cmd.Id == nodeIdRequest &&
+            cmd.DeviceType == nodeRequest.DeviceType &&
+            cmd.UserName == nodeRequest.UserName &&
+            cmd.ClientVersion == nodeRequest.ClientVersion), It.IsAny<CancellationToken>()), Times.Once);
     }
 }
