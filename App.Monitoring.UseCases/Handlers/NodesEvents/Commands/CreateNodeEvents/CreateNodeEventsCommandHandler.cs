@@ -12,8 +12,8 @@ namespace App.Monitoring.UseCases.Handlers.NodesEvents.Commands.CreateNodeEvents
 /// </summary>
 internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNodeEventsCommand>
 {
-    private readonly INodesRepository _nodesRepository;
     private readonly INodesEventsRepository _nodesEventsRepository;
+    private readonly INodesRepository _nodesRepository;
 
     /// <summary>
     /// Инициализация.

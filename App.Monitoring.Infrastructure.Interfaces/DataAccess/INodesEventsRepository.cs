@@ -12,18 +12,18 @@ namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 public interface INodesEventsRepository
 {
     /// <summary>
-    /// Получить события по идентификатору узла.
-    /// </summary>
-    /// <param name="nodeId">Идентификатор узла.</param>
-    /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>События.</returns>
-    Task<IEnumerable<NodeEventEntity>> GetByNodeIdAsync(Guid nodeId, CancellationToken cancellationToken);
-
-    /// <summary>
     /// Создать события.
     /// </summary>
     /// <param name="events">События.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
     Task CreateAsync(IEnumerable<NodeEventEntity> events, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Получить события по идентификатору узла.
+    /// </summary>
+    /// <param name="nodeId">Идентификатор узла.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>События.</returns>
+    Task<IEnumerable<NodeEventEntity>> GetByNodeIdAsync(Guid nodeId, CancellationToken cancellationToken);
 }

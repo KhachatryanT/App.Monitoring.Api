@@ -7,7 +7,7 @@ namespace App.Monitoring.Api;
 /// <summary>
 /// Конфигурации маппинга.
 /// </summary>
-public sealed class MapConfig: IRegister
+public sealed class MapConfig : IRegister
 {
     /// <summary>
     /// Регистрация конфигураций.
@@ -16,9 +16,9 @@ public sealed class MapConfig: IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<NodeEntity, Node>()
-            .Map(dest=>dest.Os, src =>src.DeviceType)
-            .Map(dest=>dest.Name, src =>src.UserName)
-            .Map(dest=>dest.Version, src =>src.ClientVersion);
+            .Map(dest => dest.Os, src => src.DeviceType)
+            .Map(dest => dest.Name, src => src.UserName)
+            .Map(dest => dest.Version, src => src.ClientVersion);
         config.NewConfig<NodeEventEntity, NodeEvent>();
     }
 }

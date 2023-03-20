@@ -22,40 +22,6 @@ namespace App.Monitoring.Api.UnitTests;
 public class NodeEventsControllerTests
 {
     /// <summary>
-    /// Получение событий узла.
-    /// Должны вернуться все события узла.
-    /// </summary>
-    /// <param name="nodesEventsRepositoryMoq">Moq репозитория событий узлов.</param>
-    /// <param name="senderMoq">Moq MediartR.</param>
-    /// <param name="controller">Контроллер.</param>
-    /// <param name="nodeIdRequest">Идентификатор узла.</param>
-    /// <param name="expectedNodeEvents">События.</param>
-    /// <returns>Task.</returns>
-    [Theory, AutoMoqData]
-    public async Task GetNodeEvents_ShouldReturnEvents(
-        [Frozen]Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
-        [Frozen] Mock<ISender> senderMoq,
-        NodeEventsController controller,
-        Guid nodeIdRequest,
-        IEnumerable<NodeEventEntity> expectedNodeEvents)
-    {
-        // Arrange
-        nodesEventsRepositoryMoq.Setup(repo => repo.GetByNodeIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .Returns(() => Task.FromResult(expectedNodeEvents));
-
-        var handler = new GetNodeEventsQueryHandler(nodesEventsRepositoryMoq.Object);
-
-        senderMoq.Setup(x => x.Send(It.IsAny<GetNodeEventsQuery>(), It.IsAny<CancellationToken>()))
-            .Returns<GetNodeEventsQuery, CancellationToken>((request, cToken) => handler.Handle(request, cToken));
-
-        // Act
-        var actualNodeEvents = await controller.GetNodeEvents(nodeIdRequest);
-
-        // Assert
-        Assert.Equal(expectedNodeEvents.Count(), actualNodeEvents.Events.Count());
-    }
-
-    /// <summary>
     /// Добавить события узла.
     /// Должен быть вызван метод репозитория для добавления записей.
     /// </summary>
@@ -66,11 +32,12 @@ public class NodeEventsControllerTests
     /// <param name="nodeIdRequest">Идентификатор узла.</param>
     /// <param name="nodeEventsRequest">События.</param>
     /// <returns>Task.</returns>
-    [Theory, AutoMoqData]
+    [Theory]
+    [AutoMoqData]
     public async Task CreateNodeEvents_ShouldCreateRepositoryMethodCalled(
-        [Frozen]Mock<INodesRepository> nodesRepositoryMoq,
-        [Frozen]Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
-        [Frozen]Mock<ISender> senderMoq,
+        [Frozen] Mock<INodesRepository> nodesRepositoryMoq,
+        [Frozen] Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
+        [Frozen] Mock<ISender> senderMoq,
         NodeEventsController controller,
         Guid nodeIdRequest,
         IEnumerable<NodeEvent> nodeEventsRequest)
@@ -91,5 +58,40 @@ public class NodeEventsControllerTests
 
         // Assert
         nodesEventsRepositoryMoq.Verify(x => x.CreateAsync(It.IsAny<IEnumerable<NodeEventEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Получение событий узла.
+    /// Должны вернуться все события узла.
+    /// </summary>
+    /// <param name="nodesEventsRepositoryMoq">Moq репозитория событий узлов.</param>
+    /// <param name="senderMoq">Moq MediartR.</param>
+    /// <param name="controller">Контроллер.</param>
+    /// <param name="nodeIdRequest">Идентификатор узла.</param>
+    /// <param name="expectedNodeEvents">События.</param>
+    /// <returns>Task.</returns>
+    [Theory]
+    [AutoMoqData]
+    public async Task GetNodeEvents_ShouldReturnEvents(
+        [Frozen] Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
+        [Frozen] Mock<ISender> senderMoq,
+        NodeEventsController controller,
+        Guid nodeIdRequest,
+        IEnumerable<NodeEventEntity> expectedNodeEvents)
+    {
+        // Arrange
+        nodesEventsRepositoryMoq.Setup(repo => repo.GetByNodeIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Returns(() => Task.FromResult(expectedNodeEvents));
+
+        var handler = new GetNodeEventsQueryHandler(nodesEventsRepositoryMoq.Object);
+
+        senderMoq.Setup(x => x.Send(It.IsAny<GetNodeEventsQuery>(), It.IsAny<CancellationToken>()))
+            .Returns<GetNodeEventsQuery, CancellationToken>((request, cToken) => handler.Handle(request, cToken));
+
+        // Act
+        var actualNodeEvents = await controller.GetNodeEvents(nodeIdRequest);
+
+        // Assert
+        Assert.Equal(expectedNodeEvents.Count(), actualNodeEvents.Events.Count());
     }
 }

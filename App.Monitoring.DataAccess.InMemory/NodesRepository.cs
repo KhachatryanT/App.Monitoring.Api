@@ -16,6 +16,23 @@ internal sealed class NodesRepository : INodesRepository
     private static readonly ConcurrentDictionary<Guid, NodeEntity> cache = new();
 
     /// <summary>
+    /// Создать новую статистику устройства.
+    /// </summary>
+    /// <param name="nodeEntity">Статистика устройства.</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Task.</returns>
+    /// <exception cref="ArgumentException">Невозможно добавить статистику устройства. Статистика уже существует.</exception>
+    public Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
+    {
+        if (!cache.TryAdd(nodeEntity.Id, nodeEntity))
+        {
+            throw new ArgumentException("Не удалось добавить запись", nameof(nodeEntity));
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Получить статистики устройств.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
@@ -33,23 +50,6 @@ internal sealed class NodesRepository : INodesRepository
     {
         cache.TryGetValue(id, out var deviceStatistic);
         return Task.FromResult(deviceStatistic);
-    }
-
-    /// <summary>
-    /// Создать новую статистику устройства.
-    /// </summary>
-    /// <param name="nodeEntity">Статистика устройства.</param>
-    /// <param name="cancellationToken">Токен отмены.</param>
-    /// <returns>Task.</returns>
-    /// <exception cref="ArgumentException">Невозможно добавить статистику устройства. Статистика уже существует.</exception>
-    public Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
-    {
-        if (!cache.TryAdd(nodeEntity.Id, nodeEntity))
-        {
-            throw new ArgumentException("Не удалось добавить запись", nameof(nodeEntity));
-        }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

@@ -28,7 +28,8 @@ public class NodeControllerTests
     /// <param name="nodeIdRequest">Идентификатор узла.</param>
     /// <param name="nodeRequest">Узел.</param>
     /// <returns>Task.</returns>
-    [Theory, AutoMoqData]
+    [Theory]
+    [AutoMoqData]
     public async Task CreateOrUpdateNode__ShouldCreateRepositoryMethodCalled(
         [Frozen] Mock<INodesRepository> nodesRepositoryMoq,
         [Frozen] Mock<ISender> senderMoq,
@@ -62,7 +63,8 @@ public class NodeControllerTests
     /// <param name="nodeIdRequest">Идентификатор узла.</param>
     /// <param name="nodeRequest">Узел.</param>
     /// <returns>Task.</returns>
-    [Theory, AutoMoqData]
+    [Theory]
+    [AutoMoqData]
     public async Task CreateOrUpdateNode__ShouldUpdateRepositoryMethodCalled(
         [Frozen] Mock<INodesRepository> nodesRepositoryMoq,
         [Frozen] Mock<ISender> senderMoq,
@@ -85,5 +87,4 @@ public class NodeControllerTests
         // Assert
         nodesRepositoryMoq.Verify(x => x.UpdateAsync(It.IsAny<NodeEntity>(), It.IsAny<CancellationToken>()), Times.Once);
     }
-
 }

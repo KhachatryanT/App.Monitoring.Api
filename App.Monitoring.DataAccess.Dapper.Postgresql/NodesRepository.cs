@@ -9,7 +9,7 @@ using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
-/// <inheritdoc />
+/// <inheritdoc/>
 internal sealed class NodesRepository : INodesRepository
 {
     private readonly NpgsqlConnection _connection;
@@ -20,23 +20,7 @@ internal sealed class NodesRepository : INodesRepository
     /// <param name="connection">Подключение к postgres.</param>
     public NodesRepository(NpgsqlConnection connection) => _connection = connection;
 
-    /// <inheritdoc />
-    public async Task<IEnumerable<NodeEntity>> GetAsync(CancellationToken cancellationToken)
-    {
-        var command = new CommandDefinition(@$"SELECT * FROM nodes", cancellationToken: cancellationToken);
-        return await _connection.QueryAsync<NodeEntity>(command);
-    }
-
-    /// <inheritdoc />
-    public async Task<NodeEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
-    {
-        var command = new CommandDefinition(@$"SELECT * FROM nodes WHERE id = @{nameof(id)}",
-            parameters: new { id },
-            cancellationToken: cancellationToken);
-        return await _connection.QuerySingleOrDefaultAsync<NodeEntity>(command);
-    }
-
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(@$"INSERT INTO nodes (id, user_name, device_type, statistic_date, client_version) VALUES
@@ -45,12 +29,28 @@ internal sealed class NodesRepository : INodesRepository
                                          @{nameof(nodeEntity.DeviceType)},
                                          @{nameof(nodeEntity.StatisticDate)},
                                          @{nameof(nodeEntity.ClientVersion)})",
-            parameters: nodeEntity,
+            nodeEntity,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
+    public async Task<IEnumerable<NodeEntity>> GetAsync(CancellationToken cancellationToken)
+    {
+        var command = new CommandDefinition(@"SELECT * FROM nodes", cancellationToken: cancellationToken);
+        return await _connection.QueryAsync<NodeEntity>(command);
+    }
+
+    /// <inheritdoc/>
+    public async Task<NodeEntity?> GetAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var command = new CommandDefinition(@$"SELECT * FROM nodes WHERE id = @{nameof(id)}",
+            new { id },
+            cancellationToken: cancellationToken);
+        return await _connection.QuerySingleOrDefaultAsync<NodeEntity>(command);
+    }
+
+    /// <inheritdoc/>
     public async Task UpdateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
     {
         var command = new CommandDefinition(@$"UPDATE nodes SET
@@ -59,7 +59,7 @@ internal sealed class NodesRepository : INodesRepository
                             statistic_date = @{nameof(nodeEntity.StatisticDate)},
                             client_version = @{nameof(nodeEntity.ClientVersion)}
                             where id = @{nameof(nodeEntity.Id)}",
-            parameters: nodeEntity,
+            nodeEntity,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
     }

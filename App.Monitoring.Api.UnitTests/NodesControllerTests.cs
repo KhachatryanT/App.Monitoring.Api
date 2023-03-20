@@ -26,9 +26,10 @@ public class NodesControllerTests
     /// <param name="controller">Контроллер.</param>
     /// <param name="expectedNodes">Узлы.</param>
     /// <returns>Task.</returns>
-    [Theory, AutoMoqData]
+    [Theory]
+    [AutoMoqData]
     public async Task GetNodes_ShouldReturnNodes(
-        [Frozen]Mock<INodesRepository> nodesRepositoryMoq,
+        [Frozen] Mock<INodesRepository> nodesRepositoryMoq,
         [Frozen] Mock<ISender> senderMoq,
         NodesController controller,
         IEnumerable<NodeEntity> expectedNodes)

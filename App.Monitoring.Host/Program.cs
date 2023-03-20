@@ -21,7 +21,7 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Загрузка приложения");
 try
 {
-    builder.Configuration.AddEnvironmentVariables(prefix: "Mobile_");
+    builder.Configuration.AddEnvironmentVariables("Mobile_");
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddControllers()
@@ -54,7 +54,6 @@ try
         .Where(x => x.FullName is not null && x.FullName.StartsWith(nameof(App)))
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
-
 
     var postgresConnection = builder.Configuration.GetConnectionString("postgres")
         ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");

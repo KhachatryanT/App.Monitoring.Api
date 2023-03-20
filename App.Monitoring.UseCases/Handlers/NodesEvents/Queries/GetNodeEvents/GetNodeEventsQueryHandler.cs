@@ -20,7 +20,6 @@ internal sealed class GetNodeEventsQueryHandler : IQueryHandler<GetNodeEventsQue
     public GetNodeEventsQueryHandler(INodesEventsRepository nodesEventsRepository) => _nodesEventsRepository = nodesEventsRepository;
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<NodeEventEntity>> Handle(GetNodeEventsQuery request, CancellationToken cancellationToken)=>
+    public async Task<IEnumerable<NodeEventEntity>> Handle(GetNodeEventsQuery request, CancellationToken cancellationToken) =>
         await _nodesEventsRepository.GetByNodeIdAsync(request.NodeId, cancellationToken);
-
 }
