@@ -42,9 +42,9 @@ public class NodesEndpointTests
         // Arrange
         var expectedNodes = new[]
         {
-            new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Now),
-            new NodeEntity(Guid.NewGuid(), DeviceType.Iphone, "Владислава", "1.0.2", DateTimeOffset.Now),
-            new NodeEntity(Guid.NewGuid(), DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Now),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Parse("2023-03-20 11:00:00")),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Iphone, "Владислава", "1.0.2", DateTimeOffset.Parse("2023-03-20 11:00:10")),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Parse("2023-03-20 11:00:20")),
         };
         foreach (var expectedNode in expectedNodes)
         {

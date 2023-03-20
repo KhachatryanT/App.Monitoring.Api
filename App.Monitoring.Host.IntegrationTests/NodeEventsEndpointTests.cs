@@ -47,9 +47,9 @@ public class NodeEventsEndpointTests
         var nodeId = Guid.NewGuid();
         var expectedNodeEvents = new[]
         {
-            new NodeEvent("Вход", DateTimeOffset.UtcNow),
-            new NodeEvent("Поиск", DateTimeOffset.UtcNow),
-            new NodeEvent("Выход", DateTimeOffset.UtcNow),
+            new NodeEvent("Вход", DateTimeOffset.Parse("2023-03-20 11:00:00")),
+            new NodeEvent("Поиск", DateTimeOffset.Parse("2023-03-20 11:00:10")),
+            new NodeEvent("Выход", DateTimeOffset.Parse("2023-03-20 11:00:20")),
         };
 
         // Act
@@ -60,10 +60,11 @@ public class NodeEventsEndpointTests
 
         var actualNodeEvents = await _nodeEventsRepository.GetByNodeIdAsync(nodeId, default);
         Assert.Equal(expectedNodeEvents.Length, actualNodeEvents.Count());
+
         Assert.All(expectedNodeEvents, expected =>
             Assert.Contains(actualNodeEvents, actual =>
                 actual.Name == expected.Name &&
-                DateTimeOffsetComparer.Equals(actual.Date, expected.Date)));
+                actual.Date == expected.Date));
     }
 
     /// <summary>
@@ -75,12 +76,12 @@ public class NodeEventsEndpointTests
     public async Task GetNodeEventsRequest_ReturnAllNodeEventsExpected()
     {
         // Arrange
-        var expectedNode = new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.UtcNow);
+        var expectedNode = new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Parse("2023-03-20 10:00:00"));
         var expectedNodeEvents = new[]
         {
-            new NodeEventEntity(expectedNode.Id, "Вход", DateTimeOffset.UtcNow),
-            new NodeEventEntity(expectedNode.Id, "Поиск", DateTimeOffset.UtcNow),
-            new NodeEventEntity(expectedNode.Id, "Выход", DateTimeOffset.UtcNow),
+            new NodeEventEntity(expectedNode.Id, "Вход", DateTimeOffset.Parse("2023-03-20 11:00:00")),
+            new NodeEventEntity(expectedNode.Id, "Поиск", DateTimeOffset.Parse("2023-03-20 11:00:10")),
+            new NodeEventEntity(expectedNode.Id, "Выход", DateTimeOffset.Parse("2023-03-20 11:00:20")),
         };
         await _nodesRepository.CreateAsync(expectedNode, default);
         await _nodeEventsRepository.CreateAsync(expectedNodeEvents, default);
@@ -97,6 +98,6 @@ public class NodeEventsEndpointTests
         Assert.All(expectedNodeEvents, expected =>
             Assert.Contains(actualResult.Events, actual =>
                 actual.Name == expected.Name &&
-                DateTimeOffsetComparer.Equals(actual.Date, expected.Date)));
+                actual.Date == expected.Date));
     }
 }
