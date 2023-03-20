@@ -57,6 +57,11 @@ public class NodesControllerTests
         await controller.CreateOrUpdateNode(nodeIdRequest, nodeRequest);
 
         // Assert
-        senderMoq.Verify(x => x.Send(It.IsAny<CreateOrUpdateNodeCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        senderMoq.Verify(x => x.Send(It.Is<CreateOrUpdateNodeCommand>(cmd =>
+            cmd != default &&
+            cmd.Id == nodeIdRequest &&
+            cmd.DeviceType == nodeRequest.DeviceType &&
+            cmd.UserName == nodeRequest.UserName &&
+            cmd.ClientVersion == nodeRequest.ClientVersion), It.IsAny<CancellationToken>()), Times.Once);
     }
 }
