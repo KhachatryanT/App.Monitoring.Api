@@ -37,7 +37,7 @@ internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNod
             await _nodesRepository.CreateAsync(node, cancellationToken);
         }
 
-        var dto = request.Events.Select(x => new NodeEventEntity(request.NodeId, x.Name, x.Date));
-        await _nodeEventsRepository.CreateAsync(dto, cancellationToken);
+        var eventsEntities = request.Events.Select(x => new NodeEventEntity(request.NodeId, x.Name, x.Date));
+        await _nodeEventsRepository.CreateAsync(eventsEntities, cancellationToken);
     }
 }
