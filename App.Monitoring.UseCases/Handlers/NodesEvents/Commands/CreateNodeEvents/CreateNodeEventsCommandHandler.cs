@@ -12,19 +12,19 @@ namespace App.Monitoring.UseCases.Handlers.NodesEvents.Commands.CreateNodeEvents
 /// </summary>
 internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNodeEventsCommand>
 {
-    private readonly INodesEventsRepository _nodesEventsRepository;
+    private readonly INodeEventsRepository _nodeEventsRepository;
     private readonly INodesRepository _nodesRepository;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
     /// <param name="nodesRepository">Репозиторий узлов.</param>
-    /// <param name="nodesEventsRepository">Репозиторий событий узлов.</param>
+    /// <param name="nodeEventsRepository">Репозиторий событий узлов.</param>
     public CreateNodeEventsCommandHandler(INodesRepository nodesRepository,
-        INodesEventsRepository nodesEventsRepository)
+        INodeEventsRepository nodeEventsRepository)
     {
         _nodesRepository = nodesRepository;
-        _nodesEventsRepository = nodesEventsRepository;
+        _nodeEventsRepository = nodeEventsRepository;
     }
 
     /// <inheritdoc/>
@@ -38,6 +38,6 @@ internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNod
         }
 
         var dto = request.Events.Select(x => new NodeEventEntity(request.NodeId, x.Name, x.Date));
-        await _nodesEventsRepository.CreateAsync(dto, cancellationToken);
+        await _nodeEventsRepository.CreateAsync(dto, cancellationToken);
     }
 }

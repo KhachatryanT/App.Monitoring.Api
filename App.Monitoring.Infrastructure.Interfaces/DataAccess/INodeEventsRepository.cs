@@ -9,7 +9,7 @@ namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 /// <summary>
 /// Репозиторий событий узлов.
 /// </summary>
-public interface INodesEventsRepository
+public interface INodeEventsRepository
 {
     /// <summary>
     /// Создать события.

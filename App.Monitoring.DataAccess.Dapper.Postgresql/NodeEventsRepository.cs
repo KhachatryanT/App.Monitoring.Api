@@ -10,7 +10,7 @@ using Npgsql;
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
 /// <inheritdoc/>
-internal sealed class NodesEventsRepository : INodesEventsRepository
+internal sealed class NodeEventsRepository : INodeEventsRepository
 {
     private readonly NpgsqlConnection _connection;
 
@@ -18,7 +18,7 @@ internal sealed class NodesEventsRepository : INodesEventsRepository
     /// Инициализация.
     /// </summary>
     /// <param name="connection">Подключение к postgres.</param>
-    public NodesEventsRepository(NpgsqlConnection connection) => _connection = connection;
+    public NodeEventsRepository(NpgsqlConnection connection) => _connection = connection;
 
     /// <inheritdoc/>
     public async Task CreateAsync(IEnumerable<NodeEventEntity> events, CancellationToken cancellationToken)

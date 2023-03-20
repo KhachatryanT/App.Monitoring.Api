@@ -36,7 +36,7 @@ public class NodeEventsControllerTests
     [AutoMoqData]
     public async Task CreateNodeEvents_ShouldCreateRepositoryMethodCalled(
         [Frozen] Mock<INodesRepository> nodesRepositoryMoq,
-        [Frozen] Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
+        [Frozen] Mock<INodeEventsRepository> nodesEventsRepositoryMoq,
         [Frozen] Mock<ISender> senderMoq,
         NodeEventsController controller,
         Guid nodeIdRequest,
@@ -73,7 +73,7 @@ public class NodeEventsControllerTests
     [Theory]
     [AutoMoqData]
     public async Task GetNodeEvents_ShouldReturnEvents(
-        [Frozen] Mock<INodesEventsRepository> nodesEventsRepositoryMoq,
+        [Frozen] Mock<INodeEventsRepository> nodesEventsRepositoryMoq,
         [Frozen] Mock<ISender> senderMoq,
         NodeEventsController controller,
         Guid nodeIdRequest,
