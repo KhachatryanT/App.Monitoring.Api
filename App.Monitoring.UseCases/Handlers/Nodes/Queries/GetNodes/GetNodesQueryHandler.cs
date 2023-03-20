@@ -7,7 +7,7 @@ using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 namespace App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
 
 /// <summary>
-/// Обработчик запроса получения статистики устройств.
+/// Обработчик запроса получения узлов.
 /// </summary>
 internal sealed class GetNodesQueryHandler : IQueryHandler<GetNodesQuery, IEnumerable<NodeEntity>>
 {
