@@ -1,3 +1,4 @@
+using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Hosting;
@@ -35,13 +36,13 @@ public class AppWebApplicationFactory : WebApplicationFactory<Program>
 
     private static void EnsureTruncatedDatabase(IConfiguration configuration)
     {
-        using var cnn = new NpgsqlConnection(configuration.GetConnectionString("postgresql"));
-        cnn.Open();
-        TruncateDatabase(cnn);
-        cnn.Close();
+        using var connection = new NpgsqlConnection(configuration.GetConnectionString("postgresql"));
+        connection.Open();
+        TruncateDatabase(connection);
+        connection.Close();
     }
 
-    private static void TruncateDatabase(NpgsqlConnection cnn) => cnn.Execute(@"
+    private static void TruncateDatabase(IDbConnection connection) => connection.Execute(@"
 DO $$
 DECLARE
   tables CURSOR FOR
