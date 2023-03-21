@@ -17,26 +17,6 @@ namespace App.Monitoring.Api.UnitTests;
 public class NodesControllerTests
 {
     /// <summary>
-    /// Получить узлы.
-    /// Должен быть вызван MediatR с правильным типом.
-    /// </summary>
-    /// <param name="senderMoq">Moq MediartR.</param>
-    /// <param name="controller">Контроллер.</param>
-    /// <returns>Task.</returns>
-    [Theory]
-    [AutoMoqData]
-    public async Task GetNodes_SenderMethodWasCalledWithCorrectTypeExpected(
-        [Frozen] Mock<ISender> senderMoq,
-        NodesController controller)
-    {
-        // Act
-        await controller.GetNodes();
-
-        // Assert
-        senderMoq.Verify(x => x.Send(It.IsAny<GetNodesQuery>(), It.IsAny<CancellationToken>()), Times.Once);
-    }
-
-    /// <summary>
     /// Добавить или обновить узел.
     /// Должен быть вызван MediatR с правильным типом.
     /// </summary>
@@ -63,5 +43,25 @@ public class NodesControllerTests
             cmd.DeviceType == nodeRequest.DeviceType &&
             cmd.UserName == nodeRequest.UserName &&
             cmd.ClientVersion == nodeRequest.ClientVersion), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Получить узлы.
+    /// Должен быть вызван MediatR с правильным типом.
+    /// </summary>
+    /// <param name="senderMoq">Moq MediartR.</param>
+    /// <param name="controller">Контроллер.</param>
+    /// <returns>Task.</returns>
+    [Theory]
+    [AutoMoqData]
+    public async Task GetNodes_SenderMethodWasCalledWithCorrectTypeExpected(
+        [Frozen] Mock<ISender> senderMoq,
+        NodesController controller)
+    {
+        // Act
+        await controller.GetNodes();
+
+        // Assert
+        senderMoq.Verify(x => x.Send(It.IsAny<GetNodesQuery>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

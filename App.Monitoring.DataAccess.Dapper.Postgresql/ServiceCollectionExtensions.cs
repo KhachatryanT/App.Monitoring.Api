@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
         services.AddScoped<INodesRepository, NodesRepository>();
         services.AddScoped<INodeEventsRepository, NodeEventsRepository>();
+        services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
         SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
         SqlMapper.AddTypeHandler(new DateTimeOffsetToUtcHandler());
     }
