@@ -18,19 +18,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="App.Monitoring.Api.UnitTests"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.0.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0"/>
-    <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\App.Monitoring.Infrastructure.Interfaces\App.Monitoring.Infrastructure.Interfaces.csproj"/>
-  </ItemGroup>
-
 </Project>

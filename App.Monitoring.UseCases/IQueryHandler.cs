@@ -8,6 +8,6 @@ namespace App.Monitoring.UseCases;
 /// <typeparam name="TQuery">Тип объекта запроса.</typeparam>
 /// <typeparam name="TResult">Тип объекта результата.</typeparam>
 internal interface IQueryHandler<in TQuery, TResult> : IRequestHandler<TQuery, TResult>
-	where TQuery : IQuery<TResult>
+    where TQuery : IQuery<TResult>
 {
 }

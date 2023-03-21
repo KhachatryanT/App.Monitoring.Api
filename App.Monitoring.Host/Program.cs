@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Text.Json.Serialization;
 using App.Monitoring.DataAccess.Dapper.Postgresql;
+using App.Monitoring.Infrastructure.Implementation.Converters;
 using App.Monitoring.UseCases;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
@@ -20,11 +21,15 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Загрузка приложения");
 try
 {
-    builder.Configuration.AddEnvironmentVariables(prefix: "Mobile_");
+    builder.Configuration.AddEnvironmentVariables("Mobile_");
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Services.AddControllers()
-        .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+        .AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            o.JsonSerializerOptions.Converters.Add(new DateTimeOffsetFormatConverter("yyyy-MM-ddTHH:mm:ss.fffZ"));
+        });
     builder.Services.AddSwaggerDocument(s =>
     {
         s.PostProcess = doc =>
@@ -33,7 +38,7 @@ try
         };
     });
 
-    builder.Services.AddDeviceStatisticsUseCases();
+    builder.Services.AddNodesUseCases();
 
     builder.Services.AddCors(o =>
     {
@@ -50,12 +55,11 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
-
-    var postgresConnection = builder.Configuration.GetConnectionString("postgres")
+    var postgresqlConnection = builder.Configuration.GetConnectionString("postgresql")
         ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");
 
-    builder.Services.AddDataAccessDapperPostgres(postgresConnection);
-    builder.Services.AddDataAccessDapperPostgresMigrator(postgresConnection);
+    builder.Services.AddDataAccessDapperPostgresql(postgresqlConnection);
+    builder.Services.AddDataAccessDapperPostgresqlMigrator(postgresqlConnection);
 
     var app = builder.Build();
     app.MigrateDatabase();
@@ -80,4 +84,12 @@ catch (Exception e)
 finally
 {
     Log.CloseAndFlush();
+}
+
+/// <summary>
+/// Опредедение публичного модификатора доступа.
+/// Необходимо для интеграционных тестов.
+/// </summary>
+public partial class Program
+{
 }

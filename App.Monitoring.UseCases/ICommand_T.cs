@@ -8,5 +8,4 @@ namespace App.Monitoring.UseCases;
 /// <typeparam name="T">Тип объекта результата.</typeparam>
 internal interface ICommand<out T> : IRequest<T>
 {
-
 }
