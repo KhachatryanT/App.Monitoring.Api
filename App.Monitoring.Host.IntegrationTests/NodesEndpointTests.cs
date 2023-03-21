@@ -68,6 +68,30 @@ public class NodesEndpointTests
     }
 
     /// <summary>
+    /// Получение узла.
+    /// </summary>
+    /// <returns>Task.</returns>
+    [Fact]
+    public async Task GetNodeRequest_ReturnNodesExpected()
+    {
+        // Arrange
+        var expectedNodeId = Guid.NewGuid();
+        var expectedNode = new NodeEntity(expectedNodeId, DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Now);
+        await _nodesRepository.CreateAsync(expectedNode, default);
+
+        // Act
+        var actualResponse = await _client.GetAsync($"/nodes/{expectedNodeId}");
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
+        var actualNode = await actualResponse.DeserializeResponseAsync<Node>();
+        Assert.Equal(expectedNodeId, actualNode.Id);
+        Assert.Equal(expectedNode.UserName, actualNode.Name);
+        Assert.Equal(expectedNode.DeviceType, actualNode.Os);
+        Assert.Equal(expectedNode.ClientVersion, actualNode.Version);
+    }
+
+    /// <summary>
     /// Добавление узла.
     /// Узел должен создаться в БД.
     /// </summary>

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateOrUpdateNode;
+using App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNode;
 using App.Monitoring.UseCases.Handlers.Nodes.Queries.GetNodes;
 using Mapster;
 using MediatR;
@@ -36,6 +37,17 @@ public class NodesController : ControllerBase
     {
         var nodes = await _sender.Send(new GetNodesQuery());
         return nodes.Adapt<Node[]>();
+    }
+
+    /// <summary>
+    /// Получить узлел.
+    /// </summary>
+    /// <returns>Узел.</returns>
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<Node>> GetNode(Guid id)
+    {
+        var nodes = await _sender.Send(new GetNodeQuery(id));
+        return nodes is null ? NotFound() : nodes.Adapt<Node>();
     }
 
     /// <summary>
