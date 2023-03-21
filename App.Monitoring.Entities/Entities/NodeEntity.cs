@@ -16,8 +16,10 @@ public sealed record NodeEntity(Guid Id, DeviceType DeviceType, string? UserName
     /// <summary>
     /// Инициализация типа <see cref="NodeEntity"/>.
     /// </summary>
-    [Obsolete("Вызывается десериализаторами. Используйте конструктор со всеми полями. ", true)]
-    public NodeEntity()
+    /// <remarks>
+    /// Вызывается десериализаторами. Используйте конструктор со всеми полями.
+    /// </remarks>
+    private NodeEntity()
         : this(default, default, default, default, default)
     {
     }

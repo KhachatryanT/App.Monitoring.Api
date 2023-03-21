@@ -55,11 +55,11 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
-    var postgresConnection = builder.Configuration.GetConnectionString("postgres")
+    var postgresqlConnection = builder.Configuration.GetConnectionString("postgresql")
         ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");
 
-    builder.Services.AddDataAccessDapperPostgres(postgresConnection);
-    builder.Services.AddDataAccessDapperPostgresMigrator(postgresConnection);
+    builder.Services.AddDataAccessDapperPostgresql(postgresqlConnection);
+    builder.Services.AddDataAccessDapperPostgresqlMigrator(postgresqlConnection);
 
     var app = builder.Build();
     app.MigrateDatabase();
@@ -84,4 +84,12 @@ catch (Exception e)
 finally
 {
     Log.CloseAndFlush();
+}
+
+/// <summary>
+/// Опредедение публичного модификатора доступа.
+/// Необходимо для интеграционных тестов.
+/// </summary>
+public partial class Program
+{
 }

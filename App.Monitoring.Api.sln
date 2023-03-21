@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Tests", "5 Tests", "{D2BC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Api.UnitTests", "App.Monitoring.Api.UnitTests\App.Monitoring.Api.UnitTests.csproj", "{0355F8A5-A8F2-4127-B7C2-AFB34F4D81B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.DataAccess.Dapper.Postgresql.IntegrationTests", "App.Monitoring.DataAccess.Dapper.Postgresql.IntegrationTests\App.Monitoring.DataAccess.Dapper.Postgresql.IntegrationTests.csproj", "{0F52BCE6-7EE2-4B0B-B8C6-178CF9004C0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Monitoring.Host.IntegrationTests", "App.Monitoring.Host.IntegrationTests\App.Monitoring.Host.IntegrationTests.csproj", "{0F52BCE6-7EE2-4B0B-B8C6-178CF9004C0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

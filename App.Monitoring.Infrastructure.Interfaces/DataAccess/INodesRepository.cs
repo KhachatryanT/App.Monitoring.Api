@@ -17,7 +17,7 @@ public interface INodesRepository
     /// <param name="nodeEntity">Узел.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default);
+    Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Получить все узлы.
@@ -40,5 +40,5 @@ public interface INodesRepository
     /// <param name="nodeEntity">Узел.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Task.</returns>
-    Task UpdateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default);
+    Task UpdateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken);
 }

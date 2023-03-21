@@ -18,11 +18,13 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <param name="connectionString">Строка подключения к БД.</param>
-    public static void AddDataAccessDapperPostgres(this IServiceCollection services, string connectionString)
+    public static void AddDataAccessDapperPostgresql(this IServiceCollection services, string connectionString)
     {
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
         services.AddScoped<INodesRepository, NodesRepository>();
         services.AddScoped<INodeEventsRepository, NodeEventsRepository>();
+        SqlMapper.RemoveTypeMap(typeof(DateTimeOffset));
+        SqlMapper.AddTypeHandler(new DateTimeOffsetToUtcHandler());
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
     /// <param name="connectionString">Строка подключения к БД.</param>
-    public static void AddDataAccessDapperPostgresMigrator(this IServiceCollection services, string connectionString)
+    public static void AddDataAccessDapperPostgresqlMigrator(this IServiceCollection services, string connectionString)
     {
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
@@ -43,16 +45,5 @@ public static class ServiceCollectionExtensions
                 .ConfigureGlobalProcessorOptions(o => o.ProviderSwitches = "Force Quote=false")
                 .ScanIn(typeof(ApplicationBuilderExtensions).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddProvider(loggerProvider));
-    }
-
-    /// <summary>
-    /// Миграции БД.
-    /// </summary>
-    /// <param name="services"><see cref="IServiceProvider"/>.</param>
-    public static void MigrateDatabase(this IServiceProvider services)
-    {
-        using var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-        runner.MigrateUp();
     }
 }

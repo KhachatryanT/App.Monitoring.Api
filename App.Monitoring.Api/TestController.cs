@@ -39,7 +39,7 @@ public class TestController : ControllerBase
                 $"User name {i}",
                 $"ClientVersion {i}",
                 DateTimeOffset.UtcNow);
-            await _repository.CreateAsync(node);
+            await _repository.CreateAsync(node, HttpContext.RequestAborted);
             await Task.Delay(1);
         }
 

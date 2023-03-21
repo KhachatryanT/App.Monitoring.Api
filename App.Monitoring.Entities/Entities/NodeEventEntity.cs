@@ -13,8 +13,10 @@ public sealed record NodeEventEntity(Guid NodeId, string? Name, DateTimeOffset? 
     /// <summary>
     /// Инициализация типа <see cref="NodeEventEntity"/>.
     /// </summary>
-    [Obsolete("Вызывается десериализаторами. Используйте конструктор со всеми полями.", true)]
-    public NodeEventEntity()
+    /// <remarks>
+    /// Вызывается десериализаторами. Используйте конструктор со всеми полями.
+    /// </remarks>
+    private NodeEventEntity()
         : this(default, default, default)
     {
     }
