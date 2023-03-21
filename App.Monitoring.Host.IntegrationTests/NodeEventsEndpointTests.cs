@@ -9,6 +9,7 @@ using App.Monitoring.Entities.Entities;
 using App.Monitoring.Entities.Enums;
 using App.Monitoring.Host.IntegrationTests.Helpers;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
+using AutoFixture.Xunit2;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -39,19 +40,13 @@ public class NodeEventsEndpointTests
     /// Добавить события узла.
     /// События должны успешно записаться в БД.
     /// </summary>
+    /// <param name="nodeId">Идентификатор узла.</param>
+    /// <param name="expectedNodeEvents">События для добавления.</param>
     /// <returns>Task.</returns>
-    [Fact]
-    public async Task CreateNodeEvents()
+    [Theory]
+    [AutoData]
+    public async Task CreateNodeEvents(Guid nodeId, NodeEvent[] expectedNodeEvents)
     {
-        // Arrange
-        var nodeId = Guid.NewGuid();
-        var expectedNodeEvents = new[]
-        {
-            new NodeEvent("Вход", DateTimeOffset.Parse("2023-03-20 11:00:00")),
-            new NodeEvent("Поиск", DateTimeOffset.Parse("2023-03-20 11:00:10")),
-            new NodeEvent("Выход", DateTimeOffset.Parse("2023-03-20 11:00:20")),
-        };
-
         // Act
         var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}/events", expectedNodeEvents);
 
@@ -64,7 +59,9 @@ public class NodeEventsEndpointTests
         Assert.All(expectedNodeEvents, expected =>
             Assert.Contains(actualNodeEvents, actual =>
                 actual.Name == expected.Name &&
-                actual.Date == expected.Date));
+                actual.Date.HasValue &&
+                expected.Date.HasValue &&
+                actual.Date.Value.ToUnixTimeMilliseconds() == expected.Date.Value.ToUnixTimeMilliseconds()));
     }
 
     /// <summary>
@@ -76,12 +73,12 @@ public class NodeEventsEndpointTests
     public async Task GetNodeEventsRequest_ReturnAllNodeEventsExpected()
     {
         // Arrange
-        var expectedNode = new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Parse("2023-03-20 10:00:00"));
+        var expectedNode = new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Now);
         var expectedNodeEvents = new[]
         {
-            new NodeEventEntity(expectedNode.Id, "Вход", DateTimeOffset.Parse("2023-03-20 11:00:00")),
-            new NodeEventEntity(expectedNode.Id, "Поиск", DateTimeOffset.Parse("2023-03-20 11:00:10")),
-            new NodeEventEntity(expectedNode.Id, "Выход", DateTimeOffset.Parse("2023-03-20 11:00:20")),
+            new NodeEventEntity(expectedNode.Id, "Вход", DateTimeOffset.Now),
+            new NodeEventEntity(expectedNode.Id, "Поиск", DateTimeOffset.Now),
+            new NodeEventEntity(expectedNode.Id, "Выход", DateTimeOffset.Now),
         };
         await _nodesRepository.CreateAsync(expectedNode, default);
         await _nodeEventsRepository.CreateAsync(expectedNodeEvents, default);
@@ -98,6 +95,8 @@ public class NodeEventsEndpointTests
         Assert.All(expectedNodeEvents, expected =>
             Assert.Contains(actualResult.Events, actual =>
                 actual.Name == expected.Name &&
-                actual.Date == expected.Date));
+                actual.Date.HasValue &&
+                expected.Date.HasValue &&
+                actual.Date.Value.ToUnixTimeMilliseconds() == expected.Date.Value.ToUnixTimeMilliseconds()));
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using App.Monitoring.Api.Contracts;
 using App.Monitoring.Entities.Entities;
@@ -42,9 +43,9 @@ public class NodesEndpointTests
         // Arrange
         var expectedNodes = new[]
         {
-            new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Parse("2023-03-20 11:00:00")),
-            new NodeEntity(Guid.NewGuid(), DeviceType.Iphone, "Владислава", "1.0.2", DateTimeOffset.Parse("2023-03-20 11:00:10")),
-            new NodeEntity(Guid.NewGuid(), DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Parse("2023-03-20 11:00:20")),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Android, "Бажена", "1.0.3", DateTimeOffset.Now),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Iphone, "Владислава", "1.0.2", DateTimeOffset.Now),
+            new NodeEntity(Guid.NewGuid(), DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Now),
         };
         foreach (var expectedNode in expectedNodes)
         {
@@ -64,5 +65,29 @@ public class NodesEndpointTests
                 actual.Os == expected.DeviceType &&
                 actual.Version == expected.ClientVersion)
         );
+    }
+
+    /// <summary>
+    /// Добавление узла.
+    /// Узел должен создаться в БД.
+    /// </summary>
+    /// <returns>Task.</returns>
+    [Fact]
+    public async Task CreateNodeRequest_NodeWasCreatedInDbExpected()
+    {
+        // Arrange
+        var nodeId = Guid.NewGuid();
+        var expectedNode = new CreateNodeRequest(DeviceType.Android, "Иван Петрович", "1.0.1");
+
+        // Act
+        var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}", expectedNode);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
+        var actualNode = await _nodesRepository.GetAsync(nodeId, default);
+        Assert.NotNull(actualNode);
+        Assert.Equal(expectedNode.DeviceType, actualNode.DeviceType);
+        Assert.Equal(expectedNode.UserName, actualNode.UserName);
+        Assert.Equal(expectedNode.ClientVersion, actualNode.ClientVersion);
     }
 }
