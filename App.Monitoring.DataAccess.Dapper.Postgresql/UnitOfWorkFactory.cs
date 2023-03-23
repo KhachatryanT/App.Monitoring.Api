@@ -17,5 +17,5 @@ internal sealed class UnitOfWorkFactory : IUnitOfWorkFactory
     public UnitOfWorkFactory(NpgsqlConnection connection) => _connection = connection;
 
     /// <inheritdoc/>
-    public IUnitOfWork Create() => new UnitOfWork(_connection);
+    public IUnitOfWork Create() => new UnitOfWork(_connection.ConnectionString);
 }

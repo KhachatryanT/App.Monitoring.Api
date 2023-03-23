@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Monitoring.Entities.Entities;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Dapper;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
@@ -12,13 +14,25 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 /// <inheritdoc/>
 internal sealed class NodesRepository : INodesRepository
 {
-    private readonly NpgsqlConnection _connection;
+    private readonly IDbConnection _connection;
+    private readonly IDbTransaction? _transaction;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
     /// <param name="connection">Подключение к postgresql.</param>
+    [ActivatorUtilitiesConstructor]
     public NodesRepository(NpgsqlConnection connection) => _connection = connection;
+
+    /// <summary>
+    /// Инициализация.
+    /// </summary>
+    /// <param name="transaction">Транзакция БД.</param>
+    public NodesRepository(IDbTransaction transaction)
+    {
+        _transaction = transaction;
+        _connection = transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection));
+    }
 
     /// <inheritdoc/>
     public async Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
@@ -30,6 +44,7 @@ internal sealed class NodesRepository : INodesRepository
                                          @{nameof(nodeEntity.StatisticDate)},
                                          @{nameof(nodeEntity.ClientVersion)})",
             nodeEntity,
+            _transaction,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
     }
@@ -37,7 +52,9 @@ internal sealed class NodesRepository : INodesRepository
     /// <inheritdoc/>
     public async Task<IEnumerable<NodeEntity>> GetAsync(CancellationToken cancellationToken)
     {
-        var command = new CommandDefinition(@"SELECT * FROM nodes", cancellationToken: cancellationToken);
+        var command = new CommandDefinition(@"SELECT * FROM nodes",
+            transaction: _transaction,
+            cancellationToken: cancellationToken);
         return await _connection.QueryAsync<NodeEntity>(command);
     }
 
@@ -46,6 +63,7 @@ internal sealed class NodesRepository : INodesRepository
     {
         var command = new CommandDefinition(@$"SELECT * FROM nodes WHERE id = @{nameof(id)}",
             new { id },
+            _transaction,
             cancellationToken: cancellationToken);
         return await _connection.QuerySingleOrDefaultAsync<NodeEntity>(command);
     }
@@ -60,6 +78,7 @@ internal sealed class NodesRepository : INodesRepository
                             client_version = @{nameof(nodeEntity.ClientVersion)}
                             where id = @{nameof(nodeEntity.Id)}",
             nodeEntity,
+            _transaction,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
     }

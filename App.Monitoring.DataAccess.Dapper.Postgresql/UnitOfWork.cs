@@ -6,8 +6,10 @@ using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
-/// <inheritdoc/>
-internal sealed class UnitOfWork : IUnitOfWork
+/// <summary>
+/// Транзакционная работа с репозиториями.
+/// </summary>
+internal sealed class UnitOfWork : IUnitOfWork, IAsyncDisposable
 {
     private readonly NpgsqlConnection _connection;
     private readonly NpgsqlTransaction _transaction;
@@ -17,10 +19,11 @@ internal sealed class UnitOfWork : IUnitOfWork
     /// <summary>
     /// Инициализация.
     /// </summary>
-    /// <param name="connection">Подключение к postgresql.</param>
-    public UnitOfWork(NpgsqlConnection connection)
+    /// <param name="connectionString">Подключение к postgresql.</param>
+    public UnitOfWork(string connectionString)
     {
-        _connection = connection;
+        _connection = new NpgsqlConnection(connectionString);
+        _connection.Open();
         _transaction = _connection.BeginTransaction();
     }
 
@@ -42,5 +45,12 @@ internal sealed class UnitOfWork : IUnitOfWork
             await _transaction.RollbackAsync(cancellationToken);
             throw;
         }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync()
+    {
+        await _transaction.DisposeAsync();
+        await _connection.DisposeAsync();
     }
 }

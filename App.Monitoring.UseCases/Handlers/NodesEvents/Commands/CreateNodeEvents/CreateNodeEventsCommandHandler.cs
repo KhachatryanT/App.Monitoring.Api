@@ -23,7 +23,7 @@ internal sealed class CreateNodeEventsCommandHandler : ICommandHandler<CreateNod
     /// <inheritdoc/>
     public async Task Handle(CreateNodeEventsCommand request, CancellationToken cancellationToken)
     {
-        var unitOfWork = _unitOfWorkFactory.Create();
+        await using var unitOfWork = _unitOfWorkFactory.Create();
         var node = await unitOfWork.NodesRepository.GetAsync(request.NodeId, cancellationToken);
         if (node is null)
         {

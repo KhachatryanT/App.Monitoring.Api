@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace App.Monitoring.Infrastructure.Interfaces.DataAccess;
 /// <summary>
 /// Транзакционная работа с репозиториями.
 /// </summary>
-public interface IUnitOfWork
+public interface IUnitOfWork : IAsyncDisposable
 {
     /// <summary>
     /// Репозиторий событий узлов.
