@@ -9,9 +9,8 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 /// <summary>
 /// Транзакционная работа с репозиториями.
 /// </summary>
-internal sealed class UnitOfWork : IUnitOfWork, IAsyncDisposable
+internal sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly NpgsqlConnection _connection;
     private readonly NpgsqlTransaction _transaction;
     private INodeEventsRepository? _nodeEventsRepository;
     private INodesRepository? _nodesRepository;
@@ -19,19 +18,14 @@ internal sealed class UnitOfWork : IUnitOfWork, IAsyncDisposable
     /// <summary>
     /// Инициализация.
     /// </summary>
-    /// <param name="connectionString">Подключение к postgresql.</param>
-    public UnitOfWork(string connectionString)
-    {
-        _connection = new NpgsqlConnection(connectionString);
-        _connection.Open();
-        _transaction = _connection.BeginTransaction();
-    }
+    /// <param name="transaction">Транзакция.</param>
+    public UnitOfWork(NpgsqlTransaction transaction) => _transaction = transaction;
 
     /// <inheritdoc/>
-    public INodeEventsRepository NodeEventsRepository => _nodeEventsRepository ??= new NodeEventsRepository(_connection);
+    public INodeEventsRepository NodeEventsRepository => _nodeEventsRepository ??= new NodeEventsRepository(_transaction);
 
     /// <inheritdoc/>
-    public INodesRepository NodesRepository => _nodesRepository ??= new NodesRepository(_connection);
+    public INodesRepository NodesRepository => _nodesRepository ??= new NodesRepository(_transaction);
 
     /// <inheritdoc/>
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
@@ -51,6 +45,9 @@ internal sealed class UnitOfWork : IUnitOfWork, IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await _transaction.DisposeAsync();
-        await _connection.DisposeAsync();
+        if (_transaction.Connection != null)
+        {
+            await _transaction.Connection.DisposeAsync();
+        }
     }
 }

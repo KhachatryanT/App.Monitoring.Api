@@ -7,7 +7,6 @@ using App.Monitoring.Entities.Entities;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 
 namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 
@@ -22,7 +21,7 @@ internal sealed class NodesRepository : INodesRepository
     /// </summary>
     /// <param name="connection">Подключение к postgresql.</param>
     [ActivatorUtilitiesConstructor]
-    public NodesRepository(NpgsqlConnection connection) => _connection = connection;
+    public NodesRepository(IDbConnection connection) => _connection = connection;
 
     /// <summary>
     /// Инициализация.
