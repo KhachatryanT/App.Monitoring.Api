@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Dapper;
 using FluentMigrator.Runner;
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static void AddDataAccessDapperPostgresql(this IServiceCollection services, string connectionString)
     {
         services.AddScoped<NpgsqlConnection>(_ => new NpgsqlConnection(connectionString));
+        services.AddScoped<IDbConnection>(sp => sp.GetRequiredService<NpgsqlConnection>());
         services.AddScoped<INodesRepository, NodesRepository>();
         services.AddScoped<INodeEventsRepository, NodeEventsRepository>();
         services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
