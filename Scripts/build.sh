@@ -1,1 +1,0 @@
-dotnet build ../App.Monitoring.Api.sln -c Release
