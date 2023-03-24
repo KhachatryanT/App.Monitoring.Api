@@ -29,28 +29,6 @@ public class NodesController : ControllerBase
     public NodesController(ISender sender) => _sender = sender;
 
     /// <summary>
-    /// Получить узлы.
-    /// </summary>
-    /// <returns>Узлы.</returns>
-    [HttpGet]
-    public async Task<IEnumerable<Node>> GetNodes()
-    {
-        var nodes = await _sender.Send(new GetNodesQuery());
-        return nodes.Adapt<Node[]>();
-    }
-
-    /// <summary>
-    /// Получить узлел.
-    /// </summary>
-    /// <returns>Узел.</returns>
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<Node>> GetNode(Guid id)
-    {
-        var nodes = await _sender.Send(new GetNodeQuery(id));
-        return nodes is null ? NotFound() : nodes.Adapt<Node>();
-    }
-
-    /// <summary>
     /// Добавить или обновить узел.
     /// </summary>
     /// <param name="id">Идентификатор устройства.</param>
@@ -68,5 +46,28 @@ public class NodesController : ControllerBase
             node.ClientVersion
         ));
         return Ok();
+    }
+
+    /// <summary>
+    /// Получить узлел.
+    /// </summary>
+    /// <param name="id">Идентификатор узла.</param>
+    /// <returns>Узел.</returns>
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<Node>> GetNode(Guid id)
+    {
+        var nodes = await _sender.Send(new GetNodeQuery(id));
+        return nodes is null ? NotFound() : nodes.Adapt<Node>();
+    }
+
+    /// <summary>
+    /// Получить узлы.
+    /// </summary>
+    /// <returns>Узлы.</returns>
+    [HttpGet]
+    public async Task<IEnumerable<Node>> GetNodes()
+    {
+        var nodes = await _sender.Send(new GetNodesQuery());
+        return nodes.Adapt<Node[]>();
     }
 }

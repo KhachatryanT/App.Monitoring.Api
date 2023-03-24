@@ -34,6 +34,54 @@ public class NodesEndpointTests
     }
 
     /// <summary>
+    /// Добавление узла.
+    /// Узел должен создаться в БД.
+    /// </summary>
+    /// <returns>Task.</returns>
+    [Fact]
+    public async Task CreateNodeRequest_NodeWasCreatedInDbExpected()
+    {
+        // Arrange
+        var nodeId = Guid.NewGuid();
+        var expectedNode = new CreateNodeRequest(DeviceType.Android, "Иван Петрович", "1.0.1");
+
+        // Act
+        var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}", expectedNode);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
+        var actualNode = await _nodesRepository.GetAsync(nodeId, default);
+        Assert.NotNull(actualNode);
+        Assert.Equal(expectedNode.DeviceType, actualNode.DeviceType);
+        Assert.Equal(expectedNode.UserName, actualNode.UserName);
+        Assert.Equal(expectedNode.ClientVersion, actualNode.ClientVersion);
+    }
+
+    /// <summary>
+    /// Получение узла.
+    /// </summary>
+    /// <returns>Task.</returns>
+    [Fact]
+    public async Task GetNodeRequest_ReturnNodesExpected()
+    {
+        // Arrange
+        var expectedNodeId = Guid.NewGuid();
+        var expectedNode = new NodeEntity(expectedNodeId, DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Now);
+        await _nodesRepository.CreateAsync(expectedNode, default);
+
+        // Act
+        var actualResponse = await _client.GetAsync($"/nodes/{expectedNodeId}");
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
+        var actualNode = await actualResponse.DeserializeResponseAsync<Node>();
+        Assert.Equal(expectedNodeId, actualNode.Id);
+        Assert.Equal(expectedNode.UserName, actualNode.Name);
+        Assert.Equal(expectedNode.DeviceType, actualNode.Os);
+        Assert.Equal(expectedNode.ClientVersion, actualNode.Version);
+    }
+
+    /// <summary>
     /// Получение всех узлов.
     /// </summary>
     /// <returns>Task.</returns>
@@ -65,53 +113,5 @@ public class NodesEndpointTests
                 actual.Os == expected.DeviceType &&
                 actual.Version == expected.ClientVersion)
         );
-    }
-
-    /// <summary>
-    /// Получение узла.
-    /// </summary>
-    /// <returns>Task.</returns>
-    [Fact]
-    public async Task GetNodeRequest_ReturnNodesExpected()
-    {
-        // Arrange
-        var expectedNodeId = Guid.NewGuid();
-        var expectedNode = new NodeEntity(expectedNodeId, DeviceType.Windows, "Заслава", "1.0.3", DateTimeOffset.Now);
-        await _nodesRepository.CreateAsync(expectedNode, default);
-
-        // Act
-        var actualResponse = await _client.GetAsync($"/nodes/{expectedNodeId}");
-
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
-        var actualNode = await actualResponse.DeserializeResponseAsync<Node>();
-        Assert.Equal(expectedNodeId, actualNode.Id);
-        Assert.Equal(expectedNode.UserName, actualNode.Name);
-        Assert.Equal(expectedNode.DeviceType, actualNode.Os);
-        Assert.Equal(expectedNode.ClientVersion, actualNode.Version);
-    }
-
-    /// <summary>
-    /// Добавление узла.
-    /// Узел должен создаться в БД.
-    /// </summary>
-    /// <returns>Task.</returns>
-    [Fact]
-    public async Task CreateNodeRequest_NodeWasCreatedInDbExpected()
-    {
-        // Arrange
-        var nodeId = Guid.NewGuid();
-        var expectedNode = new CreateNodeRequest(DeviceType.Android, "Иван Петрович", "1.0.1");
-
-        // Act
-        var actualResponse = await _client.PostAsJsonAsync($"/nodes/{nodeId}", expectedNode);
-
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, actualResponse.StatusCode);
-        var actualNode = await _nodesRepository.GetAsync(nodeId, default);
-        Assert.NotNull(actualNode);
-        Assert.Equal(expectedNode.DeviceType, actualNode.DeviceType);
-        Assert.Equal(expectedNode.UserName, actualNode.UserName);
-        Assert.Equal(expectedNode.ClientVersion, actualNode.ClientVersion);
     }
 }
