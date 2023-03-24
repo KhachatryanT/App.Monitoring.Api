@@ -33,7 +33,6 @@ public class NodesControllerTests
         Guid nodeIdRequest,
         CreateNodeRequest nodeRequest)
     {
-        Assert.Fail("Teamcity test");
         // Act
         await controller.CreateOrUpdateNode(nodeIdRequest, nodeRequest);
 
