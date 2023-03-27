@@ -1,6 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Monitoring.Entities.Entities;
+using App.Monitoring.Infrastructure.Interfaces;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Npgsql;
 
@@ -12,6 +14,7 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly NpgsqlTransaction _transaction;
+    private readonly IAppObserver<NodeEntity> _nodeModifyObserver;
     private INodeEventsRepository? _nodeEventsRepository;
     private INodesRepository? _nodesRepository;
 
@@ -19,13 +22,18 @@ internal sealed class UnitOfWork : IUnitOfWork
     /// Инициализация.
     /// </summary>
     /// <param name="transaction">Транзакция.</param>
-    public UnitOfWork(NpgsqlTransaction transaction) => _transaction = transaction;
+    /// <param name="nodeModifyObserver">Наблюдатель изменения узлов.</param>
+    public UnitOfWork(NpgsqlTransaction transaction, IAppObserver<NodeEntity> nodeModifyObserver)
+    {
+        _transaction = transaction;
+        _nodeModifyObserver = nodeModifyObserver;
+    }
 
     /// <inheritdoc/>
     public INodeEventsRepository NodeEventsRepository => _nodeEventsRepository ??= new NodeEventsRepository(_transaction);
 
     /// <inheritdoc/>
-    public INodesRepository NodesRepository => _nodesRepository ??= new NodesRepository(_transaction);
+    public INodesRepository NodesRepository => _nodesRepository ??= new NodesRepository(_transaction, _nodeModifyObserver);
 
     /// <inheritdoc/>
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

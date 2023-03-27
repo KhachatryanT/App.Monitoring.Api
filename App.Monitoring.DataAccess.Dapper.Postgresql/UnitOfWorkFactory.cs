@@ -1,3 +1,5 @@
+using App.Monitoring.Entities.Entities;
+using App.Monitoring.Infrastructure.Interfaces;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Npgsql;
 
@@ -9,12 +11,18 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 internal sealed class UnitOfWorkFactory : IUnitOfWorkFactory
 {
     private readonly NpgsqlConnection _connection;
+    private readonly IAppObserver<NodeEntity> _nodeModifyObserver;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
     /// <param name="connection">Подключение к postgresql.</param>
-    public UnitOfWorkFactory(NpgsqlConnection connection) => _connection = connection;
+    /// <param name="nodeModifyObserver">Наблюдатель изменения узлов.</param>
+    public UnitOfWorkFactory(NpgsqlConnection connection, IAppObserver<NodeEntity> nodeModifyObserver)
+    {
+        _connection = connection;
+        _nodeModifyObserver = nodeModifyObserver;
+    }
 
     /// <inheritdoc/>
     public IUnitOfWork Create()
@@ -22,6 +30,6 @@ internal sealed class UnitOfWorkFactory : IUnitOfWorkFactory
         var connection = new NpgsqlConnection(_connection.ConnectionString);
         connection.Open();
         var transaction = connection.BeginTransaction();
-        return new UnitOfWork(transaction);
+        return new UnitOfWork(transaction, _nodeModifyObserver);
     }
 }

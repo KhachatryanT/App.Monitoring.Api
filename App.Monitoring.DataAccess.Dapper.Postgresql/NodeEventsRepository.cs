@@ -28,10 +28,8 @@ internal sealed class NodeEventsRepository : INodeEventsRepository
     /// </summary>
     /// <param name="transaction">Транзакция БД.</param>
     public NodeEventsRepository(IDbTransaction transaction)
-    {
+        : this(transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection))) =>
         _transaction = transaction;
-        _connection = transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection));
-    }
 
     /// <inheritdoc/>
     public async Task CreateAsync(IEnumerable<NodeEventEntity> events, CancellationToken cancellationToken)
