@@ -1,0 +1,36 @@
+version: "3"
+services:
+  proxy:
+    image: nginx:alpine
+    networks:
+      - monitoring-network
+    ports:
+      - "4433:443"
+    volumes:
+      - nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - webui
+
+  api:
+    image: monitoring-api:latest
+    networks:
+      - monitoring-network
+    environment:
+      ConnectionStrings__postgresql: "${ConnectionStrings__postgresql:?postgres connection string not set}"
+
+  webui:
+    image: monitoring-webui:latest
+    networks:
+      - monitoring-network
+
+networks:
+  monitoring-network:
+
+volumes:
+  nginx-conf:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '../nginx'
