@@ -59,8 +59,8 @@ try
         .ToArray();
     TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
-    var postgresqlConnection = builder.Configuration.GetConnectionString("postgresql")
-        ?? throw new ArgumentNullException("Не найдена строка подключения к БД.");
+    var postgresqlConnection = builder.Configuration.GetConnectionString("postgresql");
+    ArgumentException.ThrowIfNullOrEmpty(postgresqlConnection);
 
     builder.Services.AddDataAccessDapperPostgresql(postgresqlConnection);
     builder.Services.AddDataAccessDapperPostgresqlMigrator(postgresqlConnection);

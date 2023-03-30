@@ -11,8 +11,8 @@ namespace App.Monitoring.Infrastructure.Implementation;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Добавление dapper postgresql провайдера данных.
+    /// Добавление наблюдателя изменения узлов для дальшейшей отправки в хаб уведомлений.
     /// </summary>
     /// <param name="services"><see cref="IServiceCollection"/>.</param>
-    public static void AddNodesToNotificationHubEmitterObserver(this IServiceCollection services) => services.AddScoped<IAppObserver<NodeEntity>, NodesToNotificationHubEmitterObserver>();
+    public static void AddNodesToNotificationHubEmitterObserver(this IServiceCollection services) => services.AddScoped<IAppObserver<NodeEntity>, NodesToNotificationHubObserver>();
 }

@@ -11,7 +11,7 @@ namespace App.Monitoring.Infrastructure.Implementation.Observers;
 /// Наблюдатель за изменениями в узлах.
 /// Отправляет событие об изменении в Notification Hub.
 /// </summary>
-internal sealed class NodesToNotificationHubEmitterObserver : IAppObserver<NodeEntity>
+internal sealed class NodesToNotificationHubObserver : IAppObserver<NodeEntity>
 {
     private readonly IHubContext<NotificationHub, INotificationClient> _hubContext;
 
@@ -19,7 +19,7 @@ internal sealed class NodesToNotificationHubEmitterObserver : IAppObserver<NodeE
     /// Инициализация.
     /// </summary>
     /// <param name="hubContext">Hub уведомлений.</param>
-    public NodesToNotificationHubEmitterObserver(IHubContext<NotificationHub, INotificationClient> hubContext) => _hubContext = hubContext;
+    public NodesToNotificationHubObserver(IHubContext<NotificationHub, INotificationClient> hubContext) => _hubContext = hubContext;
 
     /// <inheritdoc/>
     public async Task Next(NodeEntity obj) => await _hubContext.Clients.All.NodesModified();

@@ -50,12 +50,5 @@ internal sealed class UnitOfWork : IUnitOfWork
     }
 
     /// <inheritdoc/>
-    public async ValueTask DisposeAsync()
-    {
-        await _transaction.DisposeAsync();
-        if (_transaction.Connection != null)
-        {
-            await _transaction.Connection.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() => await _transaction.DisposeAsync();
 }
