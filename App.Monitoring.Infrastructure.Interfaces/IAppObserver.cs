@@ -3,16 +3,13 @@ using System.Threading.Tasks;
 namespace App.Monitoring.Infrastructure.Interfaces;
 
 /// <summary>
-/// Наблюдатель.
+/// Наблюдатель завершения unit of work.
 /// </summary>
-/// <typeparam name="T">Тип передаваемого события.</typeparam>
-public interface IAppObserver<in T>
-    where T : class
+public interface IUnitOfWorkCompletedObserver
 {
     /// <summary>
-    /// Уведомить о событии.
+    /// Уведомить о завершении.
     /// </summary>
-    /// <param name="obj">Объект уведомления.</param>
     /// <returns>Task.</returns>
-    Task Next(T obj);
+    Task Next();
 }

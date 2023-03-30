@@ -4,7 +4,6 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Monitoring.Entities.Entities;
-using App.Monitoring.Infrastructure.Interfaces;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Dapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,29 +14,22 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 internal sealed class NodesRepository : INodesRepository
 {
     private readonly IDbConnection _connection;
-    private readonly IAppObserver<NodeEntity> _nodeModifyObserver;
     private readonly IDbTransaction? _transaction;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
     /// <param name="connection">Подключение к postgresql.</param>
-    /// <param name="nodeModifyObserver">Наблюдатель изменений узлов.</param>
     [ActivatorUtilitiesConstructor]
-    public NodesRepository(IDbConnection connection, IAppObserver<NodeEntity> nodeModifyObserver)
-    {
-        _connection = connection;
-        _nodeModifyObserver = nodeModifyObserver;
-    }
+    public NodesRepository(IDbConnection connection) => _connection = connection;
 
     /// <summary>
     /// Инициализация.
     /// </summary>
     /// <param name="transaction">Транзакция БД.</param>
-    /// <param name="nodeModifyObserver">Наблюдатель изменения узлов.</param>
     /// <exception cref="ArgumentNullException">Коннекция отсутствует.</exception>
-    public NodesRepository(IDbTransaction transaction, IAppObserver<NodeEntity> nodeModifyObserver)
-        : this(transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection)), nodeModifyObserver) =>
+    public NodesRepository(IDbTransaction transaction)
+        : this(transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection))) =>
         _transaction = transaction;
 
     /// <inheritdoc/>
@@ -53,7 +45,6 @@ internal sealed class NodesRepository : INodesRepository
             _transaction,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
-        await _nodeModifyObserver.Next(nodeEntity);
     }
 
     /// <inheritdoc/>
@@ -88,6 +79,5 @@ internal sealed class NodesRepository : INodesRepository
             _transaction,
             cancellationToken: cancellationToken);
         await _connection.ExecuteAsync(command);
-        await _nodeModifyObserver.Next(nodeEntity);
     }
 }

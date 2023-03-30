@@ -33,7 +33,7 @@ public class TestController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
     public async Task<IActionResult> SendSignalrNotification()
     {
-        await _hubContext.Clients.All.NodesModified();
+        await _hubContext.Clients.All.UnitOfWorkIsCompleted();
         return NoContent();
     }
 }

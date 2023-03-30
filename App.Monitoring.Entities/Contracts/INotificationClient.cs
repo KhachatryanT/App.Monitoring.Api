@@ -8,8 +8,8 @@ namespace App.Monitoring.Entities.Contracts;
 public interface INotificationClient
 {
     /// <summary>
-    /// Произошло обновление узлов.
+    /// Произошло завершение unit of work.
     /// </summary>
     /// <returns>Task.</returns>
-    Task NodesModified();
+    Task UnitOfWorkIsCompleted();
 }
