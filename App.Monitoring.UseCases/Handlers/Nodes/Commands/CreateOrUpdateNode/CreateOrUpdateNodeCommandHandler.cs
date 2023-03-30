@@ -11,28 +11,31 @@ namespace App.Monitoring.UseCases.Handlers.Nodes.Commands.CreateOrUpdateNode;
 /// </summary>
 internal sealed class CreateOrUpdateNodeCommandHandler : ICommandHandler<CreateOrUpdateNodeCommand>
 {
-    private readonly INodesRepository _nodesRepository;
+    private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
     /// <summary>
-    /// <see cref="CreateOrUpdateNodeCommandHandler"/>.
+    /// Инициализация.
     /// </summary>
-    /// <param name="nodesRepository">Репозиторий узлов.</param>
-    public CreateOrUpdateNodeCommandHandler(INodesRepository nodesRepository) => _nodesRepository = nodesRepository;
+    /// <param name="unitOfWorkFactory">Фабрика unit of work.</param>
+    public CreateOrUpdateNodeCommandHandler(IUnitOfWorkFactory unitOfWorkFactory) => _unitOfWorkFactory = unitOfWorkFactory;
 
     /// <inheritdoc/>
     public async Task Handle(CreateOrUpdateNodeCommand request, CancellationToken cancellationToken)
     {
+        await using var unitOfWork = _unitOfWorkFactory.Create();
         var node = new NodeEntity(request.Id, request.DeviceType, request.UserName, request.ClientVersion, DateTimeOffset.UtcNow);
 
-        var existingNode = await _nodesRepository.GetAsync(request.Id, cancellationToken);
+        var existingNode = await unitOfWork.NodesRepository.GetAsync(request.Id, cancellationToken);
 
         if (existingNode is null)
         {
-            await _nodesRepository.CreateAsync(node, cancellationToken);
+            await unitOfWork.NodesRepository.CreateAsync(node, cancellationToken);
         }
         else
         {
-            await _nodesRepository.UpdateAsync(node, cancellationToken);
+            await unitOfWork.NodesRepository.UpdateAsync(node, cancellationToken);
         }
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

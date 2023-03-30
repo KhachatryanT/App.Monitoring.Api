@@ -27,11 +27,10 @@ internal sealed class NodesRepository : INodesRepository
     /// Инициализация.
     /// </summary>
     /// <param name="transaction">Транзакция БД.</param>
+    /// <exception cref="ArgumentNullException">Коннекция отсутствует.</exception>
     public NodesRepository(IDbTransaction transaction)
-    {
+        : this(transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection))) =>
         _transaction = transaction;
-        _connection = transaction.Connection ?? throw new ArgumentNullException(nameof(transaction.Connection));
-    }
 
     /// <inheritdoc/>
     public async Task CreateAsync(NodeEntity nodeEntity, CancellationToken cancellationToken = default)
