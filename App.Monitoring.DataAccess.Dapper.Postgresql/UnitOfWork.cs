@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using App.Monitoring.Infrastructure.Interfaces;
 using App.Monitoring.Infrastructure.Interfaces.DataAccess;
 using Npgsql;
 
@@ -12,8 +15,10 @@ namespace App.Monitoring.DataAccess.Dapper.Postgresql;
 internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly NpgsqlTransaction _transaction;
+    private readonly List<IUnitOfWorkCompletedObserver> _observers = new();
     private INodeEventsRepository? _nodeEventsRepository;
     private INodesRepository? _nodesRepository;
+
 
     /// <summary>
     /// Инициализация.
@@ -27,12 +32,25 @@ internal sealed class UnitOfWork : IUnitOfWork
     /// <inheritdoc/>
     public INodesRepository NodesRepository => _nodesRepository ??= new NodesRepository(_transaction);
 
+    /// <summary>
+    /// Подписаться на завершение выполнения.
+    /// </summary>
+    /// <param name="completedObserver">Наблюдатель.</param>
+    public void Subscribe(IUnitOfWorkCompletedObserver completedObserver)
+    {
+        if (!_observers.Contains(completedObserver))
+        {
+            _observers.Add(completedObserver);
+        }
+    }
+
     /// <inheritdoc/>
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         try
         {
             await _transaction.CommitAsync(cancellationToken);
+            await Task.WhenAll(_observers.Select(x => x.Next()));
         }
         catch (Exception)
         {
@@ -42,12 +60,5 @@ internal sealed class UnitOfWork : IUnitOfWork
     }
 
     /// <inheritdoc/>
-    public async ValueTask DisposeAsync()
-    {
-        await _transaction.DisposeAsync();
-        if (_transaction.Connection != null)
-        {
-            await _transaction.Connection.DisposeAsync();
-        }
-    }
+    public async ValueTask DisposeAsync() => await _transaction.DisposeAsync();
 }
