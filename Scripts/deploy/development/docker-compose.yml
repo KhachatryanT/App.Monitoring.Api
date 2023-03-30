@@ -38,9 +38,9 @@ services:
     networks:
       - monitoring-network
     environment:
-      POSTGRES_DB: "default"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "${POSTGRES_DB:?postgres db not set}"
+      POSTGRES_USER: "${POSTGRES_USER:?postgres user not set}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?postgres password not set}"
 
 networks:
   monitoring-network:
