@@ -25,8 +25,7 @@ services:
         condition: on-failure
         delay: 2s
         max_attempts: 3
-    environment:
-      ConnectionStrings__postgresql: "${ConnectionStrings__postgresql:?postgres connection string not set}"
+    env_file: .env
 
   webui:
     image: monitoring-webui:latest
@@ -37,10 +36,7 @@ services:
     image: postgres
     networks:
       - monitoring-network
-    environment:
-      POSTGRES_DB: "${POSTGRES_DB:?postgres db not set}"
-      POSTGRES_USER: "${POSTGRES_USER:?postgres user not set}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?postgres password not set}"
+    env_file: .env
 
 networks:
   monitoring-network:

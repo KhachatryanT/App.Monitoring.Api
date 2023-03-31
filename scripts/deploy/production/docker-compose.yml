@@ -16,8 +16,7 @@ services:
     image: monitoring-api:latest
     networks:
       - monitoring-network
-    environment:
-      ConnectionStrings__postgresql: "${ConnectionStrings__postgresql:?postgres connection string not set}"
+    env_file: .env
 
   webui:
     image: monitoring-webui:latest
