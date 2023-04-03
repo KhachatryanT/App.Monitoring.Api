@@ -10,10 +10,10 @@ COPY ["App.Monitoring.Infrastructure.Implementation/App.Monitoring.Infrastructur
 RUN dotnet restore "App.Monitoring.Host/App.Monitoring.Host.csproj"
 COPY . .
 WORKDIR "/src/App.Monitoring.Host"
-RUN dotnet build "App.Monitoring.Host.csproj" -c Release -o /app/build
+RUN dotnet build "App.Monitoring.Host.csproj" -c Release
 
 FROM build AS publish
-RUN dotnet publish "App.Monitoring.Host.csproj" -c Release -o /app/publish
+RUN dotnet publish "App.Monitoring.Host.csproj" --no-build -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
