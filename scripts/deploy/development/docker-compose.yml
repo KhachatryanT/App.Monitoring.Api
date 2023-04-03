@@ -1,0 +1,50 @@
+version: "3"
+services:
+  proxy:
+    container_name: nginx-proxy
+    image: nginx:alpine
+    networks:
+      - monitoring-network
+    ports:
+      - "4433:443"
+      - "8888:80"
+    volumes:
+      - nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - webui
+
+  api:
+    image: monitoring-api:latest
+    networks:
+      - monitoring-network
+    depends_on:
+      - postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 3
+    env_file: .env
+
+  webui:
+    image: monitoring-webui:latest
+    networks:
+      - monitoring-network
+
+  postgres:
+    image: postgres
+    networks:
+      - monitoring-network
+    env_file: .env
+
+networks:
+  monitoring-network:
+
+volumes:
+  nginx-conf:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '../nginx'
